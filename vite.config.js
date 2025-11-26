@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [
     react({
-      babel: {
+      babel: { // oi oi
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
