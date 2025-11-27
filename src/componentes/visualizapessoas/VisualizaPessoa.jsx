@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Card, Descriptions, Button } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
-import PFDAO from "../../objetos/dao/PFDAO.mjs";
-import PJDAO from "../../objetos/dao/PJDAO.mjs";
+import PacienteDao from "../../objetos/dao/PacienteDAO.mjs";
+//import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
+//import PJDAO from "../../objetos/dao/PJDAO.mjs";
+//import PFDAO from "../../objetos/dao/PFDAO.mjs";
 
 
 export default function VisualizaPessoa() {
@@ -14,9 +16,8 @@ export default function VisualizaPessoa() {
 
 
   useEffect(() => {
-    const dao = tipo === "PF" ? new PFDAO() : new PJDAO();
+    const dao = tipo === "Paciente" ? new PacienteDao() : new PJDAO();
     const lista = dao.listar();
-
 
     const encontrada = lista.find((p) => p.id === id);
     if (encontrada) setPessoa(encontrada);
@@ -48,16 +49,17 @@ export default function VisualizaPessoa() {
     >
       <Card
         title={`Detalhes da ${
-          tipo === "PF" ? "Pessoa Física" : "Pessoa Jurídica"
+          tipo === "Paciente" ? "Paciente" : "Médico"
         }`}
         bordered={false}
       >
+
         <Descriptions bordered column={1}>
           <Descriptions.Item label="Nome">{pessoa.nome}</Descriptions.Item>
           <Descriptions.Item label="E-mail">{pessoa.email}</Descriptions.Item>
 
 
-          {tipo === "PF" ? (
+          {tipo === "Paciente" ? (
             <>
               <Descriptions.Item label="CPF">{pessoa.cpf}</Descriptions.Item>
               <Descriptions.Item label="Data de Nascimento">
@@ -66,35 +68,6 @@ export default function VisualizaPessoa() {
             </>
           ) : (
             <Descriptions.Item label="CNPJ">{pessoa.cnpj}</Descriptions.Item>
-          )}
-
-
-
-          <Descriptions.Item label="Endereço">
-            {pessoa.endereco?.logradouro}, {pessoa.endereco?.bairro} -{" "}
-            {pessoa.endereco?.cidade}/{pessoa.endereco?.uf}
-            <br />
-            CEP: {pessoa.endereco?.cep} | Região: {pessoa.endereco?.regiao}
-          </Descriptions.Item>
-
-
-          <Descriptions.Item label="Telefones">
-            {pessoa.telefones?.length > 0
-              ? pessoa.telefones
-                  .map((t) => `(${t.ddd}) ${t.numero}`)
-                  .join(" | ")
-              : "Não informado"}
-          </Descriptions.Item>
-
-
-          {tipo === "PF" ? (
-              <></>
-          ) : (
-            <Descriptions.Item label="Inscrição Estadual">
-              {pessoa.ie?.numero
-                ? `Nº ${pessoa.ie.numero} - ${pessoa.ie.estado} (${pessoa.ie.dataRegistro})`
-                : "Não informado"}
-            </Descriptions.Item>
           )}
         </Descriptions>
 
@@ -107,7 +80,7 @@ export default function VisualizaPessoa() {
           >
             Editar
           </Button>
-          <Button onClick={() => navigate("/lista")}>Voltar</Button>
+          <Button onClick={() => navigate("/listar")}>Voltar</Button>
         </div>
       </Card>
     </div>

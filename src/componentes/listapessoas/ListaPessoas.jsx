@@ -2,32 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Popconfirm, message, Tag, Input, Select } from "antd";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import PFDAO from "../../objetos/dao/PFDAO.mjs";
-import PJDAO from "../../objetos/dao/PJDAO.mjs";
+import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs"
+// import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
 
 
 export default function ListaPessoas() {
   const navigate = useNavigate();
 
-
-  const [tipo, setTipo] = useState("PF");
+  const [tipo, setTipo] = useState("Paciente");
   const [filtroNome, setFiltroNome] = useState("");
   const [dados, setDados] = useState([]);
 
-
-  const pfDAO = new PFDAO();
-  const pjDAO = new PJDAO();
+  const pacienteDAO = new PacienteDAO()
 
 
   function carregarLista() {
-    const dao = tipo === "PF" ? pfDAO : pjDAO;
+    const dao = tipo === "Paciente" ? pacienteDAO : "medicoDAO";
     const lista = dao.listar();
 
 
     const filtrados = lista.filter((p) =>
       p.nome?.toLowerCase().includes(filtroNome.toLowerCase())
     );
-
 
     setDados(filtrados);
   }
@@ -39,46 +35,52 @@ export default function ListaPessoas() {
 
 
   function excluirPessoa(id) {
-    const dao = tipo === "PF" ? pfDAO : pjDAO;
+    const dao = tipo === "Paciente" ? pacienteDAO : "medicoDAO";
     dao.excluir(id);
     message.success("Registro excluído com sucesso!");
     carregarLista();
   }
 
 
-  const colunas = [
-    { title: "Nome", dataIndex: "nome", key: "nome" },
-    { title: "Email", dataIndex: "email", key: "email" },
-    {
-      title: tipo === "PF" ? "CPF" : "CNPJ",
-      dataIndex: tipo === "PF" ? "cpf" : "cnpj",
-      key: "doc",
-      width: 200,
-    },
-    {
-      title: "Ações",
-      key: "acoes",
-      width: 180,
-      render: (_, record) => (
-        <Space>
-          <Button
-            icon={<EyeOutlined />}
-            onClick={() => navigate(`/visualizar/${tipo}/${record.id}`)}
-          />
-          <Button
-            icon={<EditOutlined />}
-            onClick={() => navigate(`/editar/${tipo}/${record.id}`)}
-          />
-          <Popconfirm
-            title="Deseja realmente excluir?"
-            onConfirm={() => excluirPessoa(record.id)}
-          >
-            <Button danger icon={<DeleteOutlined />} />
-          </Popconfirm>
-        </Space>
-      ),
-    },
-  ];
+    const colunas = [
+      { title: "Nome", dataIndex: "nome", key: "nome" },
+      {
+        title: "CPF",
+        dataIndex: "cpf",
+        key: "doc",
+        width: 200,
+      },
+      {
+        title: tipo === "Paciente" ? "Data de Nascimento" : "",
+        dataIndex: "datanascimento",
+        key: "data",
+        width: 200,
+        render: (data) => data ? new Date(data).toLocaleDateString("pt-BR") : "-"
+      },
+      {
+        title: "Ações",
+        key: "acoes",
+        width: 180,
+        render: (_, record) => (
+          <Space>
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => navigate(`/visualizar/${tipo}/${record.id}`)}
+            />
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => navigate(`/editar/${tipo}/${record.id}`)}
+            />
+            <Popconfirm
+              title="Deseja realmente excluir?"
+              onConfirm={() => excluirPessoa(record.id)}
+            >
+              <Button danger icon={<DeleteOutlined />} />
+            </Popconfirm>
+          </Space>
+        ),
+      },
+    ];
 
 
   return (
@@ -103,8 +105,8 @@ export default function ListaPessoas() {
           onChange={(v) => setTipo(v)}
           style={{ width: 200 }}
           options={[
-            { value: "PF", label: "Pessoa Física" },
-            { value: "PJ", label: "Pessoa Jurídica" },
+            { value: "Paciente", label: "Paciente" },
+            { value: "Medico", label: "Médico" },
           ]}
         />
         <Input
