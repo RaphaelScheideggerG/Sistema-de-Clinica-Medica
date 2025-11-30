@@ -1,6 +1,8 @@
+import Pessoa from "./Pessoa.mjs";
+
 export default class Paciente extends Pessoa {
     #cpf;
-    #titulo;
+    #dataNascimento;
   
     setCPF(cpf) {
       if (cpf) {
@@ -14,16 +16,20 @@ export default class Paciente extends Pessoa {
       return this.#cpf;
     }
   
-    setTitulo(titulo) {
-      if (titulo instanceof Titulo) {
-        this.#titulo = titulo;
-        titulo.setPF(this);
-        return true;
+
+  setDataNascimento(data) {
+      const d = new Date(data);
+
+      // Verifica se a data é válida
+      if (!isNaN(d.getTime())) {
+          this.#dataNascimento = d;
+          return true;
       }
+
       return false;
-    }
-  
-    getTitulo() {
-      return this.#titulo;
-    }
+  }
+
+  getDataNascimento() {
+      return this.#dataNascimento;
+  }
   }

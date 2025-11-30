@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Card, Descriptions, Button } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import PacienteDao from "../../objetos/dao/PacienteDAO.mjs";
-//import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
-//import PJDAO from "../../objetos/dao/PJDAO.mjs";
-//import PFDAO from "../../objetos/dao/PFDAO.mjs";
-
+import dayjs from "dayjs"; // ✅ importa o dayjs
+import "dayjs/locale/pt-br"; // opcional, para usar locale brasileiro
+dayjs.locale("pt-br");
 
 export default function VisualizaPessoa() {
   const { tipo, id } = useParams();
   const navigate = useNavigate();
 
-
   const [pessoa, setPessoa] = useState(null);
-
 
   useEffect(() => {
     const dao = tipo === "Paciente" ? new PacienteDao() : new PJDAO();
@@ -23,18 +20,16 @@ export default function VisualizaPessoa() {
     if (encontrada) setPessoa(encontrada);
   }, [tipo, id]);
 
-
   if (!pessoa) {
     return (
       <div style={{ textAlign: "center", marginTop: 40 }}>
         <h3>Nenhuma pessoa encontrada.</h3>
-        <Button type="primary" onClick={() => navigate("/listar")}>
+        <Button type="primary" onClick={() => navigate("/lista")}>
           Voltar à lista
         </Button>
       </div>
     );
   }
-
 
   return (
     <div
@@ -48,29 +43,25 @@ export default function VisualizaPessoa() {
       }}
     >
       <Card
-        title={`Detalhes da ${
-          tipo === "Paciente" ? "Paciente" : "Médico"
-        }`}
+        title={`Detalhes da ${tipo === "Paciente" ? "Paciente" : "Médico"}`}
         bordered={false}
       >
-
         <Descriptions bordered column={1}>
           <Descriptions.Item label="Nome">{pessoa.nome}</Descriptions.Item>
-          <Descriptions.Item label="E-mail">{pessoa.email}</Descriptions.Item>
-
 
           {tipo === "Paciente" ? (
             <>
               <Descriptions.Item label="CPF">{pessoa.cpf}</Descriptions.Item>
               <Descriptions.Item label="Data de Nascimento">
-                {pessoa.datanascimento ? pessoa.datanascimento : "Não informado"}
+                {pessoa.datanascimento
+                  ? dayjs(pessoa.datanascimento).format("DD/MM/YYYY")
+                  : "Não informado"}
               </Descriptions.Item>
             </>
           ) : (
             <Descriptions.Item label="CNPJ">{pessoa.cnpj}</Descriptions.Item>
           )}
         </Descriptions>
-
 
         <div style={{ textAlign: "center", marginTop: 24 }}>
           <Button
@@ -80,7 +71,7 @@ export default function VisualizaPessoa() {
           >
             Editar
           </Button>
-          <Button onClick={() => navigate("/listar")}>Voltar</Button>
+          <Button onClick={() => navigate("/lista")}>Voltar</Button>
         </div>
       </Card>
     </div>
