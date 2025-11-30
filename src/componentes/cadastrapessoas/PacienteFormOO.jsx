@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Form, Input, Radio, Button, message, Card } from "antd";
 import { useParams } from "react-router-dom";
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs";
-import Paciente from "../../objetos/modelos/Paciente.mjs"; // importa a classe Paciente
+import Paciente from "../../objetos/modelos/Paciente.mjs";
 import PacienteForm from "./PacienteForm.jsx";
 
 export default function PessoaFormOO() {
@@ -29,11 +29,9 @@ export default function PessoaFormOO() {
       paciente.setDataNascimento(values.dataNascimento?.format("DD/MM/YYYY"));
 
       if (id) {
-        // edição
         dao.atualizar(id, paciente);
         message.success("Registro atualizado com sucesso!");
       } else {
-        // cadastro novo
         dao.salvar(paciente);
         message.success("Registro salvo com sucesso!");
       }
