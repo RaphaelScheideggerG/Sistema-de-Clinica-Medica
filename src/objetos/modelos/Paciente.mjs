@@ -1,30 +1,29 @@
-import Pessoa from "./Pessoa.mjs";
-
-export default class PF extends Pessoa {
-  #cpf;
-  #datanascimento;
-
-  setCPF(cpf) {
-    if (cpf) {
-      this.#cpf = cpf;
-      return true;
+export default class Paciente extends Pessoa {
+    #cpf;
+    #titulo;
+  
+    setCPF(cpf) {
+      if (cpf) {
+        this.#cpf = cpf;
+        return true;
+      }
+      return false;
     }
-    return false;
-  }
-
-  getCPF() {
-    return this.#cpf;
-  }
-
-  setDataNascimento(dataNascimento){
-    if (dataNascimento){
-      this.#datanascimento = dataNascimento
-      return true;
+  
+    getCPF() {
+      return this.#cpf;
     }
-    return false;
+  
+    setTitulo(titulo) {
+      if (titulo instanceof Titulo) {
+        this.#titulo = titulo;
+        titulo.setPF(this);
+        return true;
+      }
+      return false;
+    }
+  
+    getTitulo() {
+      return this.#titulo;
+    }
   }
-
-  getDataNascimento() {
-    return this.#datanascimento;
-  }
-}

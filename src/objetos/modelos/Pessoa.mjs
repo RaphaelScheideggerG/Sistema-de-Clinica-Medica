@@ -1,59 +1,52 @@
-import Telefone from "./Telefone.mjs";
-import Endereco from "./Endereco.mjs";
-
 export default class Pessoa {
   #nome;
-  #email;
-  #endereco;
-  #telefones = [];
+  #dataNascimento;
 
+  // ----- NOME -----
   setNome(nome) {
-    if (nome) {
-      this.#nome = nome;
-      return true;
-    }
-    return false;
+      if (nome) {
+          this.#nome = nome;
+          return true;
+      }
+      return false;
   }
 
   getNome() {
-    return this.#nome;
+      return this.#nome;
   }
 
-  setEmail(email) {
-    if (email) {
-      this.#email = email;
-      return true;
-    }
-    return false;
+  // ----- DATA DE NASCIMENTO -----
+  setDataNascimento(data) {
+      const d = new Date(data);
+
+      // Verifica se a data é válida
+      if (!isNaN(d.getTime())) {
+          this.#dataNascimento = d;
+          return true;
+      }
+
+      return false;
   }
 
-  getEmail() {
-    return this.#email;
+  getDataNascimento() {
+      return this.#dataNascimento;
   }
 
-  setEndereco(endereco) {
-    if (endereco instanceof Endereco) {
-      this.#endereco = endereco;
-      endereco.addPessoa?.(this);
-      return true;
-    }
-    return false;
-  }
+  // ----- IDADE -----
+  getIdade() {
+      if (!this.#dataNascimento) return null;
 
-  getEndereco() {
-    return this.#endereco;
-  }
+      const hoje = new Date();
+      let idade = hoje.getFullYear() - this.#dataNascimento.getFullYear();
 
-  addTelefone(telefone) {
-    if (telefone instanceof Telefone) {
-      this.#telefones.push(telefone);
-      telefone.addPessoa?.(this);
-      return true;
-    }
-    return false;
-  }
+      const mes = hoje.getMonth() - this.#dataNascimento.getMonth();
+      const dia = hoje.getDate() - this.#dataNascimento.getDate();
 
-  getTelefones() {
-    return this.#telefones;
+      // Ajuste se ainda não fez aniversário no ano
+      if (mes < 0 || (mes === 0 && dia < 0)) {
+          idade--;
+      }
+
+      return idade;
   }
 }
