@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Radio, Button, message, Space, Card } from "antd";
 import EnderecoForm from "./EnderecoForm";
 import TelefoneList from "./TelefoneList";
-import PFForm from "./PFForm";
+import PFForm from "./PacienteForm";
 import PJForm from "./PJForm";
 import PF from "../../objetos/modelos/PF.mjs";
 import PJ from "../../objetos/modelos/PJ.mjs";
@@ -11,6 +11,7 @@ import Telefone from "../../objetos/modelos/Telefone.mjs";
 import PFDAO from "../../objetos/dao/PFDAO.mjs";
 import PJDAO from "../../objetos/dao/PJDAO.mjs";
 import IE from "../../objetos/modelos/IE.mjs";
+import PacienteForm from "./PacienteForm";
 
 export default function PessoaFormOO() {
   const [form] = Form.useForm();
@@ -18,7 +19,7 @@ export default function PessoaFormOO() {
 
   const onChangeTipo = (e) => setTipo(e.target.value);
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     let pessoa;
     
       try {
@@ -59,7 +60,7 @@ export default function PessoaFormOO() {
         }
 
         const dao = values.tipo === "PF" ? new PFDAO() : new PJDAO();
-        dao.salvar(pessoa);
+        await dao.salvar(pessoa);
 
         message.success("Pessoa cadastrada com sucesso!");
         form.resetFields();
@@ -105,7 +106,7 @@ export default function PessoaFormOO() {
         <TelefoneList form={form} />
 
         <Space direction="vertical" style={{ width: "100%" }}>
-          {tipo === "PF" ? <PFForm /> : <PJForm />}
+          {tipo === "PF" ? <PacienteForm /> : <PJForm />}
           <Button type="primary" htmlType="submit" block>
             Salvar
           </Button>
