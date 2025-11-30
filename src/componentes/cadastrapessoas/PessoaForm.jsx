@@ -33,7 +33,7 @@ export default function PessoaFormOO() {
         if (values.tipo === "PF") {
           pessoa = new PF();
           pessoa.setCPF(values.cpf);
-          pessoa.setDataNascimento(values.dataNascimento)
+          pessoa.setDataNascimento(values.dataNascimento?.format("DD/MM/YYYY"))
 
         } else {
           pessoa = new PJ();
