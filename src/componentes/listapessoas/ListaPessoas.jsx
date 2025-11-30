@@ -19,31 +19,32 @@ export default function ListaPessoas() {
   const pjDAO = new PJDAO();
 
 
-  function carregarLista() {
+  async function carregarLista() { 
     const dao = tipo === "PF" ? pfDAO : pjDAO;
-    const lista = dao.listar();
+    
+    const lista = await dao.listar(); 
 
-
-    const filtrados = lista.filter((p) =>
-      p.nome?.toLowerCase().includes(filtroNome.toLowerCase())
-    );
-
-
-    setDados(filtrados);
+    if (lista) {
+        const filtrados = lista.filter((p) =>
+            p.nome?.toLowerCase().includes(filtroNome.toLowerCase())
+        );
+        setDados(filtrados);
+    }
   }
-
 
   useEffect(() => {
     carregarLista();
   }, [tipo, filtroNome]);
 
 
-  function excluirPessoa(id) {
-    const dao = tipo === "PF" ? pfDAO : pjDAO;
-    dao.excluir(id);
-    message.success("Registro excluído com sucesso!");
-    carregarLista();
-  }
+  async function excluirPessoa(id) {
+  const dao = tipo === "PF" ? pfDAO : pjDAO;
+
+  await dao.excluir(id);
+  
+  message.success("Registro excluído com sucesso!");
+  carregarLista();
+}
 
 
   const colunas = [
