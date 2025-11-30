@@ -1,9 +1,9 @@
-import PF from "../modelos/PF.mjs";
+import Paciente from "../modelos/Paciente.mjs";
 
 
-export default class PFDAO {
+export default class PacienteDAO {
   constructor() {
-    this.chave = "pessoasFisicas";
+    this.chave = "pacientes"; // Chave de acesso aos pacientes no localstorage
   }
 
 
@@ -12,7 +12,7 @@ export default class PFDAO {
       const dados = localStorage.getItem(this.chave);
       return dados ? JSON.parse(dados) : [];
     } catch (e) {
-      console.error("Erro ao ler PF:", e);
+      console.error("Erro ao ler Paciente:", e);
       return [];
     }
   }
@@ -24,39 +24,22 @@ export default class PFDAO {
   }
 
 
-  toPlain(pf) {
-    if (!pf) return {};
-    const end = pf.getEndereco?.();
-    const telefones = pf.getTelefones?.() || [];
-    const data = pf.getDataNascimento?.() || "";
+  toPlain(paciente) {
+    if (!paciente) return {};
+    const data = paciente.getDataNascimento?.() || "";
 
     return {
-      id: pf.id ?? this.gerarId(), // ← garante ID único
-      nome: pf.getNome?.(),
-      email: pf.getEmail?.(),
-      cpf: pf.getCPF?.(),
+      id: paciente.id ?? this.gerarId(), // isso garante ID único
+      nome: paciente.getNome?.(),
+      cpf: paciente.getCPF?.(),
       datanascimento: data,
-      endereco: end
-        ? {
-            cep: end.getCep?.(),
-            logradouro: end.getLogradouro?.(),
-            bairro: end.getBairro?.(),
-            cidade: end.getCidade?.(),
-            uf: end.getUf?.(),
-            regiao: end.getRegiao?.(),
-          }
-        : {},
-      telefones: telefones.map((t) => ({
-        ddd: t.getDdd?.(),
-        numero: t.getNumero?.(),
-      })),
     };
   }
 
 
-  salvar(pf) {
+  salvar(paciente) {
     const lista = this.listar();
-    const obj = this.toPlain(pf);
+    const obj = this.toPlain(paciente);
     if (!obj.id) obj.id = this.gerarId();
     lista.push(obj);
     localStorage.setItem(this.chave, JSON.stringify(lista));
@@ -64,9 +47,9 @@ export default class PFDAO {
   }
 
 
-  atualizar(id, novoPF) {
+  atualizar(id, novoPaciente) {
     const lista = this.listar();
-    const obj = this.toPlain(novoPF);
+    const obj = this.toPlain(novoPaciente);
     obj.id = id;
 
 

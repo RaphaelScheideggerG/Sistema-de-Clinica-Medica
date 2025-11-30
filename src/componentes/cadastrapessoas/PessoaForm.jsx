@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 import { Form, Input, Radio, Button, message, Space, Card } from "antd";
-import EnderecoForm from "./EnderecoForm";
-import TelefoneList from "./TelefoneList";
-import PFForm from "./PacienteForm";
-import PJForm from "./PJForm";
-import PF from "../../objetos/modelos/PF.mjs";
-import PJ from "../../objetos/modelos/PJ.mjs";
-import Endereco from "../../objetos/modelos/Endereco.mjs";
-import Telefone from "../../objetos/modelos/Telefone.mjs";
-import PFDAO from "../../objetos/dao/PFDAO.mjs";
-import PJDAO from "../../objetos/dao/PJDAO.mjs";
-import IE from "../../objetos/modelos/IE.mjs";
-import PacienteForm from "./PacienteForm";
+import Paciente from "../../objetos/modelos/Paciente.mjs";
+// Import Medico from "../../objetos/modelos/Medico.mjs"
+import PacienteForm from "./PacienteForm.jsx";
+// import MedicoForm from "./MedicoForm.jsx"
+import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs";
+//import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
 
 export default function PessoaFormOO() {
   const [form] = Form.useForm();
-  const [tipo, setTipo] = useState("PF");
+  const [tipo, setTipo] = useState("Paciente");
 
   const onChangeTipo = (e) => setTipo(e.target.value);
 
@@ -23,43 +17,18 @@ export default function PessoaFormOO() {
     let pessoa;
     
       try {
-        const end = new Endereco();
-        end.setCep(values.endereco?.cep);
-        end.setLogradouro(values.endereco?.logradouro);
-        end.setBairro(values.endereco?.bairro);
-        end.setCidade(values.endereco?.cidade);
-        end.setUf(values.endereco?.uf);
-        end.setRegiao(values.endereco?.regiao);
-
-        if (values.tipo === "PF") {
-          pessoa = new PF();
+        if (values.tipo === "Paciente") {
+          pessoa = new Paciente();
           pessoa.setCPF(values.cpf);
           pessoa.setDataNascimento(values.dataNascimento?.format("DD/MM/YYYY"))
 
         } else {
-          pessoa = new PJ();
-          pessoa.setCNPJ(values.cnpj);
-          const inscricaoEstadual = new IE();
-          inscricaoEstadual.setNumero(values.ie);
-          inscricaoEstadual.setEstado(values.estado);
-          inscricaoEstadual.setDataRegistro(values.dataRegistro?.format("DD/MM/YYYY"));
-          pessoa.setIE(inscricaoEstadual);
+          // Instacia médico aqui
         }
 
         pessoa.setNome(values.nome);
-        pessoa.setEmail(values.email);
-        pessoa.setEndereco(end);
 
-        if (values.telefones) {
-          values.telefones.forEach((t) => {
-            const fone = new Telefone();
-            fone.setDdd(t.ddd);
-            fone.setNumero(t.numero);
-            pessoa.addTelefone(fone);
-          });
-        }
-
-        const dao = values.tipo === "PF" ? new PFDAO() : new PJDAO();
+        const dao = values.tipo === "Paciente" ? new PacienteDAO() : new MedicoDAO();
         await dao.salvar(pessoa);
 
         message.success("Pessoa cadastrada com sucesso!");
@@ -76,10 +45,10 @@ export default function PessoaFormOO() {
   return (
     <Card title="Cadastro de Pessoa" style={{ maxWidth: 900, margin: "auto" }}>
       <Form layout="vertical" onFinish={onFinish} form={form}>
-        <Form.Item label="Tipo de Pessoa" name="tipo" initialValue="PF">
+        <Form.Item label="Tipo de Pessoa" name="tipo" initialValue="Paciente">
           <Radio.Group onChange={onChangeTipo}>
-            <Radio value="PF">Pessoa Física</Radio>
-            <Radio value="PJ">Pessoa Jurídica</Radio>
+            <Radio value="Paciente">Paciente</Radio>
+            <Radio value="Medico">Médico</Radio>
           </Radio.Group>
         </Form.Item>
 
@@ -91,22 +60,8 @@ export default function PessoaFormOO() {
           <Input placeholder="Nome completo ou razão social" />
         </Form.Item>
 
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true, message: "Informe o e-mail!" },
-            { type: "email", message: "Formato de e-mail inválido!" },
-          ]}
-        >
-          <Input placeholder="exemplo@email.com" />
-        </Form.Item>
-
-        <EnderecoForm form={form} />
-        <TelefoneList form={form} />
-
         <Space direction="vertical" style={{ width: "100%" }}>
-          {tipo === "PF" ? <PacienteForm /> : <PJForm />}
+          {tipo === "Paciente" && <PacienteForm />}
           <Button type="primary" htmlType="submit" block>
             Salvar
           </Button>

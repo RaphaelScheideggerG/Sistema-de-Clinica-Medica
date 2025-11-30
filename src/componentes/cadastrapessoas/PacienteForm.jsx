@@ -15,10 +15,11 @@ export default function PacienteForm() {
         <Input placeholder="Somente números" maxLength={11} />
       </Form.Item>
 
-      <Form.Item label="Data de Nascimento" name="dataNascimento">
-      rules={[
-        { required: true, message: "Informe a data de nascimento!" }
-        ]} 
+      <Form.Item
+        label="Data de Nascimento"
+        name="dataNascimento"
+        rules={[{ required: true, message: "Informe a data de nascimento!" }]}
+      >
         <DatePicker format="DD/MM/YYYY" style={{ width: "100%" }} />
       </Form.Item>
     </>
