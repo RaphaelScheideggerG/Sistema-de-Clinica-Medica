@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Form, Input, Radio, Button, message, Space, Card } from "antd";
 import Paciente from "../../objetos/modelos/Paciente.mjs";
-// Import Medico from "../../objetos/modelos/Medico.mjs"
-import PacienteForm from "./PacienteForm.jsx";
-// import MedicoForm from "./MedicoForm.jsx"
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs";
+import PacienteForm from "./PacienteForm.jsx";
+// Import Medico from "../../objetos/modelos/Medico.mjs"
 //import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
+// import MedicoForm from "./MedicoForm.jsx"
 
 export default function PessoaFormOO() {
   const [form] = Form.useForm();
