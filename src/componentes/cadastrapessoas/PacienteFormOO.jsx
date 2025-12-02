@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs";
 import Paciente from "../../objetos/modelos/Paciente.mjs"; // importa a classe Paciente
 import PacienteForm from "./PacienteForm.jsx";
+import dayjs from "dayjs";
 
 export default function PessoaFormOO() {
   const [form] = Form.useForm();
@@ -11,10 +12,13 @@ export default function PessoaFormOO() {
 
   useEffect(() => {
     if (id) {
-      const dao = tipo === "Paciente" ? new PacienteDAO() : null; // ajuste para médico depois
+      const dao = tipo === "Paciente" ? new PacienteDAO() : null;
       const pessoa = dao?.listar().find((p) => p.id === id);
       if (pessoa) {
-        form.setFieldsValue(pessoa);
+        form.setFieldsValue({
+          ...pessoa,
+          dataNascimento: pessoa.datanascimento ? dayjs(pessoa.datanascimento) : null,
+        });
       }
     }
   }, [id, tipo]);
@@ -26,7 +30,7 @@ export default function PessoaFormOO() {
       const paciente = new Paciente();
       paciente.setNome(values.nome);
       paciente.setCPF(values.cpf);
-      paciente.setDataNascimento(values.dataNascimento?.format("DD/MM/YYYY"));
+      paciente.setDataNascimento(values.dataNascimento);
 
       if (id) {
         // edição
@@ -39,8 +43,9 @@ export default function PessoaFormOO() {
       }
 
       form.resetFields();
-      console.log("SUCESSO");
-      console.log(values);
+      console.log("SUCESSO\n");
+      console.log("values:", values, "\n");
+
     } catch (e) {
       message.error("Erro ao salvar: " + e.message);
     }
