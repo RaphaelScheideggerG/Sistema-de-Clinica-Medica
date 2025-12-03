@@ -27,7 +27,10 @@ export default function PessoaFormOO() {
         if (values.contatoTipo === "Telefone") {
           contatodata = {
             tipo: "Telefone",
-            contato: values.telefone // aqui vem { ddd, numero }
+            contato: {
+              ddd: values.telefone?.ddd,
+              numero: values.telefone?.numero,
+            },
           };
         } else {
           contatodata = {

@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+//PacienteForm.jsx
+import React from "react";
 import { Form, Input, DatePicker, Radio } from "antd";
 import TelefoneForm from "./TelefoneForm";
 import EmailForm from "./EmailForm";
 
 export default function PacienteForm() {
-  const [contatoTipo, setContatoTipo] = useState("Telefone");
-
-  const onChangeTipo = (e) => {
-    setContatoTipo(e.target.value);
-  };
+  // Observa o valor do campo "contatoTipo" no Form
+  const contatoTipo = Form.useWatch("contatoTipo") || "Telefone";
 
   return (
     <>
@@ -36,14 +34,13 @@ export default function PacienteForm() {
         name="contatoTipo"
         initialValue="Telefone"
       >
-        <Radio.Group onChange={onChangeTipo}>
+        <Radio.Group>
           <Radio value="Telefone">Telefone</Radio>
           <Radio value="Email">Email</Radio>
         </Radio.Group>
       </Form.Item>
 
       {contatoTipo === "Telefone" ? <TelefoneForm /> : <EmailForm />}
-
     </>
   );
 }

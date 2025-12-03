@@ -17,21 +17,23 @@ export default function PessoaFormOO() {
 
       if (pessoa) {
         form.setFieldsValue({
-          ...pessoa,
+          id: pessoa.id,
+          nome: pessoa.nome,
+          cpf: pessoa.cpf,
           dataNascimento: pessoa.datanascimento
             ? dayjs(pessoa.datanascimento)
             : null,
-          // garante que contatoTipo e contato sejam setados corretamente
-          contatoTipo: pessoa.contatoTipo || "Telefone",
+          contatoTipo: pessoa.contato?.tipo || "Telefone",
           telefone:
-            pessoa.contatoTipo === "Telefone"
-              ? pessoa.telefone
+            pessoa.contato?.tipo === "Telefone"
+              ? { ddd: pessoa.contato.contato.ddd, numero: pessoa.contato.contato.numero }
               : undefined,
           email:
-            pessoa.contatoTipo === "Email"
-              ? pessoa.email
+            pessoa.contato?.tipo === "Email"
+              ? pessoa.contato.contato
               : undefined,
         });
+        
       }
     }
   }, [id, tipo]);
