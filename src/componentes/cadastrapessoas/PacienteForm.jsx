@@ -1,7 +1,15 @@
-import React from "react";
-import { Form, Input, DatePicker } from "antd";
+import React, { useState } from "react";
+import { Form, Input, DatePicker, Radio } from "antd";
+import TelefoneForm from "./TelefoneForm";
+import EmailForm from "./EmailForm";
 
 export default function PacienteForm() {
+  const [contatoTipo, setContatoTipo] = useState("Telefone");
+
+  const onChangeTipo = (e) => {
+    setContatoTipo(e.target.value);
+  };
+
   return (
     <>
       <Form.Item
@@ -22,6 +30,20 @@ export default function PacienteForm() {
       >
         <DatePicker format="DD/MM/YYYY" style={{ width: "100%" }} />
       </Form.Item>
+
+      <Form.Item
+        label="Tipo de Contato"
+        name="contatoTipo"
+        initialValue="Telefone"
+      >
+        <Radio.Group onChange={onChangeTipo}>
+          <Radio value="Telefone">Telefone</Radio>
+          <Radio value="Email">Email</Radio>
+        </Radio.Group>
+      </Form.Item>
+
+      {contatoTipo === "Telefone" ? <TelefoneForm /> : <EmailForm />}
+
     </>
   );
 }

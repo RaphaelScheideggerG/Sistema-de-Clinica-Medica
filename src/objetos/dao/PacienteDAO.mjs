@@ -28,13 +28,20 @@ export default class PacienteDAO {
     if (!paciente) return {};
     const data = paciente.getDataNascimento?.() || "";
 
+    let contato = paciente.getContato?.();
+    if (contato?.tipo === "Telefone") {
+      contato = `(${contato.contato.ddd}) ${contato.contato.numero}`;
+    }
+
     return {
-      id: paciente.id ?? this.gerarId(), // isso garante ID único
+      id: paciente.id ?? this.gerarId(),
+      contato,
       nome: paciente.getNome?.(),
       cpf: paciente.getCPF?.(),
       datanascimento: data,
     };
   }
+
 
 
   salvar(paciente) {

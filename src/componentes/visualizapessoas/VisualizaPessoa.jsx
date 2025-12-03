@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, Descriptions, Button } from "antd";
+import { Card, Descriptions, Button, Tag } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import PacienteDao from "../../objetos/dao/PacienteDAO.mjs";
-import dayjs from "dayjs"; // ✅ importa o dayjs
-import "dayjs/locale/pt-br"; // opcional, para usar locale brasileiro
+//import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"; // ✅ importa DAO de médico
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
 dayjs.locale("pt-br");
 
 export default function VisualizaPessoa() {
@@ -13,7 +14,7 @@ export default function VisualizaPessoa() {
   const [pessoa, setPessoa] = useState(null);
 
   useEffect(() => {
-    const dao = tipo === "Paciente" ? new PacienteDao() : new PJDAO();
+    const dao = tipo === "Paciente" ? new PacienteDao() : new MedicoDAO();
     const lista = dao.listar();
 
     const encontrada = lista.find((p) => p.id === id);
@@ -30,6 +31,25 @@ export default function VisualizaPessoa() {
       </div>
     );
   }
+
+  // 🔧 Função auxiliar para formatar contato
+  const renderContato = () => {
+    if (!pessoa.contato) return "Não informado";
+
+    // Caso contato seja objeto { tipo, contato }
+    if (typeof pessoa.contato === "object") {
+      if (pessoa.contato.tipo === "Telefone") {
+        const { ddd, numero } = pessoa.contato.contato || {};
+        return <Tag color="blue">📞 ({ddd}) {numero}</Tag>;
+      }
+      if (pessoa.contato.tipo === "Email") {
+        return <Tag color="green">📧 {pessoa.contato.contato}</Tag>;
+      }
+    }
+
+    // Caso contato já seja string normalizada
+    return pessoa.contato;
+  };
 
   return (
     <div
@@ -57,6 +77,7 @@ export default function VisualizaPessoa() {
                   ? dayjs(pessoa.datanascimento).format("DD/MM/YYYY")
                   : "Não informado"}
               </Descriptions.Item>
+              <Descriptions.Item label="Contato">{renderContato()}</Descriptions.Item>
             </>
           ) : (
             <Descriptions.Item label="CNPJ">{pessoa.cnpj}</Descriptions.Item>

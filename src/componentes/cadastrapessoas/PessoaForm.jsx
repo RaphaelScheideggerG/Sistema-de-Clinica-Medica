@@ -15,32 +15,48 @@ export default function PessoaFormOO() {
 
   const onFinish = async (values) => {
     let pessoa;
-    
-      try {
-        if (values.tipo === "Paciente") {
-          pessoa = new Paciente();
-          pessoa.setCPF(values.cpf);
-          pessoa.setDataNascimento(values.dataNascimento?.format("DD/MM/YYYY"))
 
+    try {
+      if (values.tipo === "Paciente") {
+        pessoa = new Paciente();
+        pessoa.setCPF(values.cpf);
+        pessoa.setDataNascimento(values.dataNascimento?.format("DD/MM/YYYY"));
+
+        // Normaliza o contato
+        let contatodata = {};
+        if (values.contatoTipo === "Telefone") {
+          contatodata = {
+            tipo: "Telefone",
+            contato: values.telefone // aqui vem { ddd, numero }
+          };
         } else {
-          // Instacia médico aqui
+          contatodata = {
+            tipo: "Email",
+            contato: values.email
+          };
         }
 
-        pessoa.setNome(values.nome);
+        pessoa.setContato(contatodata);
 
-        const dao = values.tipo === "Paciente" ? new PacienteDAO() : new MedicoDAO();
-        await dao.salvar(pessoa);
-
-        message.success("Pessoa cadastrada com sucesso!");
-        form.resetFields();
-        console.log("SUCESSO")
-        console.log(values)
-        console.log(pessoa)
-      } catch (e) {
-        message.error("Erro ao salvar: " + e.message);
-
+      } else {
+        // Instancia médico aqui
       }
+
+      pessoa.setNome(values.nome);
+
+      const dao = values.tipo === "Paciente" ? new PacienteDAO() : new MedicoDAO();
+      await dao.salvar(pessoa);
+
+      message.success("Pessoa cadastrada com sucesso!");
+      form.resetFields();
+      console.log("SUCESSO");
+      console.log("values:", values);
+      console.log("Pessoa:", pessoa);
+    } catch (e) {
+      message.error("Erro ao salvar: " + e.message);
+    }
   };
+
 
   return (
     <Card title="Cadastro de Pessoa" style={{ maxWidth: 900, margin: "auto" }}>

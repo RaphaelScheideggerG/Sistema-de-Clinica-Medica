@@ -14,10 +14,23 @@ export default function PessoaFormOO() {
     if (id) {
       const dao = tipo === "Paciente" ? new PacienteDAO() : null;
       const pessoa = dao?.listar().find((p) => p.id === id);
+
       if (pessoa) {
         form.setFieldsValue({
           ...pessoa,
-          dataNascimento: pessoa.datanascimento ? dayjs(pessoa.datanascimento) : null,
+          dataNascimento: pessoa.datanascimento
+            ? dayjs(pessoa.datanascimento)
+            : null,
+          // garante que contatoTipo e contato sejam setados corretamente
+          contatoTipo: pessoa.contatoTipo || "Telefone",
+          telefone:
+            pessoa.contatoTipo === "Telefone"
+              ? pessoa.telefone
+              : undefined,
+          email:
+            pessoa.contatoTipo === "Email"
+              ? pessoa.email
+              : undefined,
         });
       }
     }
@@ -26,11 +39,24 @@ export default function PessoaFormOO() {
   const onFinish = async (values) => {
     try {
       const dao = new PacienteDAO();
-
       const paciente = new Paciente();
+
       paciente.setNome(values.nome);
       paciente.setCPF(values.cpf);
       paciente.setDataNascimento(values.dataNascimento);
+
+      // normaliza contato
+      if (values.contatoTipo === "Telefone") {
+        paciente.setContato({
+          tipo: "Telefone",
+          contato: values.telefone, // { ddd, numero }
+        });
+      } else {
+        paciente.setContato({
+          tipo: "Email",
+          contato: values.email,
+        });
+      }
 
       if (id) {
         dao.atualizar(id, paciente);
@@ -43,7 +69,7 @@ export default function PessoaFormOO() {
       form.resetFields();
       console.log("SUCESSO\n");
       console.log("values:", values, "\n");
-
+      console.log("Paciente:", paciente, "\n");
     } catch (e) {
       message.error("Erro ao salvar: " + e.message);
     }

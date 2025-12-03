@@ -3,7 +3,8 @@ import Pessoa from "./Pessoa.mjs";
 export default class Paciente extends Pessoa {
     #cpf;
     #dataNascimento;
-  
+    #contato;
+
     setCPF(cpf) {
       if (cpf) {
         this.#cpf = cpf;
@@ -31,5 +32,17 @@ export default class Paciente extends Pessoa {
 
   getDataNascimento() {
       return this.#dataNascimento;
+  }
+
+  setContato(tipo){
+    if (tipo){
+      this.#contato = tipo;
+      return true;
+    }
+    return false;
+  }
+
+  getContato(){
+    return this.#contato;
   }
   }
