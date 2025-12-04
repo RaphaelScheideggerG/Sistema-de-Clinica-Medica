@@ -3,8 +3,8 @@ import { Table, Button, Space, Popconfirm, message, Tag, Input, Select } from "a
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs"
-// import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
-
+import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
+import dayjs from 'dayjs'; // ⬅️ Importação do Day.js
 
 export default function ListaPessoas() {
   const navigate = useNavigate();
@@ -14,12 +14,11 @@ export default function ListaPessoas() {
   const [dados, setDados] = useState([]);
 
   const pacienteDAO = new PacienteDAO()
-
+  const medicoDAO = new MedicoDAO()
 
   function carregarLista() {
-    const dao = tipo === "Paciente" ? pacienteDAO : "medicoDAO";
+    const dao = tipo === "Paciente" ? pacienteDAO : medicoDAO;
     const lista = dao.listar();
-
 
     const filtrados = lista.filter((p) =>
       p.nome?.toLowerCase().includes(filtroNome.toLowerCase())
@@ -34,54 +33,119 @@ export default function ListaPessoas() {
 
 
   function excluirPessoa(id) {
-    const dao = tipo === "Paciente" ? pacienteDAO : "medicoDAO";
+    const dao = tipo === "Paciente" ? pacienteDAO : medicoDAO;
     dao.excluir(id);
     message.success("Registro excluído com sucesso!");
     carregarLista();
   }
 
 
-    const colunas = [
-      { title: "Nome", dataIndex: "nome", key: "nome" },
-      {
-        title: "CPF",
-        dataIndex: "cpf",
-        key: "doc",
-        width: 200,
+  const colunasPaciente = [
+    { title: "Nome", dataIndex: "nome", key: "nome" },
+    {
+      title: "CPF",
+      dataIndex: "cpf",
+      key: "cpf",
+      width: 160,
+    },
+    {
+      title: "Data de Nascimento",
+      dataIndex: "datanascimento",
+      key: "dataNascimento",
+      width: 160,
+      // 🎯 MODIFICAÇÃO AQUI: Usando Day.js para formatação
+      render: (data) => (data ? dayjs(data).format('DD/MM/YYYY') : "-"),
+    },
+    {
+      title: "contato",
+      key: "Contato",
+      width: 200,
+      render: (record) => {
+        if (record.contato.tipo === "Telefone") {
+          return `${record.contato.contato.ddd} ${record.contato.contato.numero}`;
+        }
+        return record.contato.contato;
       },
-      {
-        title: tipo === "Paciente" ? "Data de Nascimento" : "",
-        dataIndex: "datanascimento",
-        key: "data",
-        width: 200,
-        render: (data) => data ? new Date(data).toLocaleDateString("pt-BR") : "-"
-      },
-      {
-        title: "Ações",
-        key: "acoes",
-        width: 180,
-        render: (_, record) => (
-          <Space>
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => navigate(`/visualizar/${tipo}/${record.id}`)}
-            />
-            <Button
-              icon={<EditOutlined />}
-              onClick={() => navigate(`/editar/${tipo}/${record.id}`)}
-            />
-            <Popconfirm
-              title="Deseja realmente excluir?"
-              onConfirm={() => excluirPessoa(record.id)}
-            >
-              <Button danger icon={<DeleteOutlined />} />
-            </Popconfirm>
-          </Space>
-        ),
-      },
-    ];
+    },
+    {
+      title: "Ações",
+      key: "acoes",
+      width: 180,
+      render: (_, record) => (
+        <Space>
+          <Button
+            icon={<EyeOutlined />}
+            onClick={() => navigate(`/visualizar/${tipo}/${record.id}`)}
+          />
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => navigate(`/editar/${tipo}/${record.id}`)}
+          />
+          <Popconfirm
+            title="Deseja realmente excluir?"
+            onConfirm={() => excluirPessoa(record.id)}
+          >
+            <Button danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
 
+  const colunasMedico = [
+    { title: "Nome", dataIndex: "nome", key: "nome" },
+    {
+      title: "CRM",
+      key: "crm",
+      width: 140,
+      render: (_, record) => 
+        record.crm
+          ? `${record.crm.numero}-${record.crm.uf}` 
+          : "N/A",
+    },
+    {
+      title: "Especialidade",
+      dataIndex: "especialidade",
+      key: "especialidade",
+      width: 200,
+    },
+    {
+      title: "Contato",
+      key: "contato",
+      width: 200,
+      render: (record) => {
+        if (record.contato.tipo === "Telefone") {
+          return `${record.contato.contato.ddd} ${record.contato.contato.numero}`;
+        }
+        return record.contato.contato;
+      },
+    },
+    {
+      title: "Ações",
+      key: "acoes",
+      width: 180,
+      render: (_, record) => (
+        <Space>
+          <Button
+            icon={<EyeOutlined />}
+            onClick={() => navigate(`/visualizar/${tipo}/${record.id}`)}
+          />
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => navigate(`/editar/${tipo}/${record.id}`)}
+          />
+          <Popconfirm
+            title="Deseja realmente excluir?"
+            onConfirm={() => excluirPessoa(record.id)}
+          >
+            <Button danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
 
+  const colunas = tipo === "Paciente" ? colunasPaciente : colunasMedico;
   return (
     <div
       style={{

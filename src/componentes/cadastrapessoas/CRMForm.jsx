@@ -1,0 +1,75 @@
+import React from "react";
+import {Form, Select, Input} from "antd";
+
+export const ufsBrasil = [
+  { value: "AC", label: "AC - Acre" },
+  { value: "AL", label: "AL - Alagoas" },
+  { value: "AP", label: "AP - Amapá" },
+  { value: "AM", label: "AM - Amazonas" },
+  { value: "BA", label: "BA - Bahia" },
+  { value: "CE", label: "CE - Ceará" },
+  { value: "DF", label: "DF - Distrito Federal" },
+  { value: "ES", label: "ES - Espírito Santo" },
+  { value: "GO", label: "GO - Goiás" },
+  { value: "MA", label: "MA - Maranhão" },
+  { value: "MT", label: "MT - Mato Grosso" },
+  { value: "MS", label: "MS - Mato Grosso do Sul" },
+  { value: "MG", label: "MG - Minas Gerais" },
+  { value: "PA", label: "PA - Pará" },
+  { value: "PB", label: "PB - Paraíba" },
+  { value: "PR", label: "PR - Paraná" },
+  { value: "PE", label: "PE - Pernambuco" },
+  { value: "PI", label: "PI - Piauí" },
+  { value: "RJ", label: "RJ - Rio de Janeiro" },
+  { value: "RN", label: "RN - Rio Grande do Norte" },
+  { value: "RS", label: "RS - Rio Grande do Sul" },
+  { value: "RO", label: "RO - Rondônia" },
+  { value: "RR", label: "RR - Roraima" },
+  { value: "SC", label: "SC - Santa Catarina" },
+  { value: "SP", label: "SP - São Paulo" },
+  { value: "SE", label: "SE - Sergipe" },
+  { value: "TO", label: "TO - Tocantins" },
+];
+
+
+const CRMForm = () => {
+  return (
+    <Form.Item label="CRM">
+      <Input.Group compact>
+
+
+        <Form.Item
+          name={['crm', 'numero']}
+          noStyle
+          rules={[{ required: true, message: 'CRM obrigatório' }]}
+        >
+          <Input
+            style={{ width: 'calc(100% - 120px)' }}
+            placeholder="Ex: 123456"
+            minLength={4}
+            maxLength={6}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name={['crm', 'uf']}
+          noStyle
+          rules={[{ required: true, message: 'UF obrigatório' }]}
+        >
+          <Select
+            showSearch
+            placeholder="UF"
+            options={ufsBrasil}
+            style={{ width: 120 }}
+            filterOption={(input, option) =>
+              option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          />
+        </Form.Item>
+
+      </Input.Group>
+    </Form.Item>
+  );
+};
+
+export default CRMForm;

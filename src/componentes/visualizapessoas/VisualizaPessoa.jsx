@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Descriptions, Button, Tag } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import PacienteDao from "../../objetos/dao/PacienteDAO.mjs";
-//import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"; // ✅ importa DAO de médico
+import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 dayjs.locale("pt-br");
@@ -32,22 +32,19 @@ export default function VisualizaPessoa() {
     );
   }
 
-  // 🔧 Função auxiliar para formatar contato
+  // 🔧 Função para formatar contato
   const renderContato = () => {
     if (!pessoa.contato) return "Não informado";
 
-    // Caso contato seja objeto { tipo, contato }
-    if (typeof pessoa.contato === "object") {
-      if (pessoa.contato.tipo === "Telefone") {
-        const { ddd, numero } = pessoa.contato.contato || {};
-        return <Tag color="blue">📞 ({ddd}) {numero}</Tag>;
-      }
-      if (pessoa.contato.tipo === "Email") {
-        return <Tag color="green">📧 {pessoa.contato.contato}</Tag>;
-      }
+    if (pessoa.contato.tipo === "Telefone") {
+      const { ddd, numero } = pessoa.contato.contato || {};
+      return <Tag color="blue">📞 ({ddd}) {numero}</Tag>;
     }
 
-    // Caso contato já seja string normalizada
+    if (pessoa.contato.tipo === "Email") {
+      return <Tag color="green">📧 {pessoa.contato.contato}</Tag>;
+    }
+
     return pessoa.contato;
   };
 
@@ -63,7 +60,7 @@ export default function VisualizaPessoa() {
       }}
     >
       <Card
-        title={`Detalhes da ${tipo === "Paciente" ? "Paciente" : "Médico"}`}
+        title={`Detalhes do ${tipo === "Paciente" ? "Paciente" : "Médico"}`}
         bordered={false}
       >
         <Descriptions bordered column={1}>
@@ -73,14 +70,26 @@ export default function VisualizaPessoa() {
             <>
               <Descriptions.Item label="CPF">{pessoa.cpf}</Descriptions.Item>
               <Descriptions.Item label="Data de Nascimento">
-                {pessoa.datanascimento
-                  ? dayjs(pessoa.datanascimento).format("DD/MM/YYYY")
+                {pessoa.dataNascimento
+                  ? dayjs(pessoa.dataNascimento).format("DD/MM/YYYY")
                   : "Não informado"}
               </Descriptions.Item>
               <Descriptions.Item label="Contato">{renderContato()}</Descriptions.Item>
             </>
           ) : (
-            <Descriptions.Item label="CNPJ">{pessoa.cnpj}</Descriptions.Item>
+            <>
+              <Descriptions.Item label="CRM">
+                {pessoa.crm ? `${pessoa.crm.numero}-${pessoa.crm.uf}` : "Não informado"}
+              </Descriptions.Item>
+
+              <Descriptions.Item label="Especialidade">
+                {pessoa.especialidade}
+              </Descriptions.Item>
+
+              <Descriptions.Item label="Contato">
+                {renderContato()}
+              </Descriptions.Item>
+            </>
           )}
         </Descriptions>
 

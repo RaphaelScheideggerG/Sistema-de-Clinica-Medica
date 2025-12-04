@@ -1,13 +1,8 @@
 //PacienteForm.jsx
 import React from "react";
-import { Form, Input, DatePicker, Radio } from "antd";
-import TelefoneForm from "./TelefoneForm";
-import EmailForm from "./EmailForm";
+import { Form, Input, DatePicker} from "antd";
 
 export default function PacienteForm() {
-  // Observa o valor do campo "contatoTipo" no Form
-  const contatoTipo = Form.useWatch("contatoTipo") || "Telefone";
-
   return (
     <>
       <Form.Item
@@ -29,18 +24,6 @@ export default function PacienteForm() {
         <DatePicker format="DD/MM/YYYY" style={{ width: "100%" }} />
       </Form.Item>
 
-      <Form.Item
-        label="Tipo de Contato"
-        name="contatoTipo"
-        initialValue="Telefone"
-      >
-        <Radio.Group>
-          <Radio value="Telefone">Telefone</Radio>
-          <Radio value="Email">Email</Radio>
-        </Radio.Group>
-      </Form.Item>
-
-      {contatoTipo === "Telefone" ? <TelefoneForm /> : <EmailForm />}
     </>
   );
 }
