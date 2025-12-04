@@ -35,7 +35,7 @@ export default function EditaPessoa() {
 
     form.setFieldsValue({
       ...pessoa,
-      dataNascimento: pessoa.datanascimento ? dayjs(pessoa.datanascimento) : null,
+      dataNascimento: pessoa.dataNascimento ? dayjs(pessoa.dataNascimento) : null,
       contatoTipo: pessoa.contato.tipo,
       telefone:
         pessoa.contato.tipo === "Telefone"

@@ -33,7 +33,7 @@ export default class PacienteDAO {
       contato: paciente.getContato?.(),
       nome: paciente.getNome?.(),
       cpf: paciente.getCPF?.(),
-      datanascimento: data,
+      dataNascimento: data,
     };
   }
 
