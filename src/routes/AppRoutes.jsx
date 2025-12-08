@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import MainLayout from "../layout/MainLayout";
+import MainLayout from "../layout/MainLayout.jsx"
 import PessoaForm from "../componentes/cadastrapessoas/PessoaForm.jsx";
 import PessoaFormOO from "../componentes/cadastrapessoas/EditaPessoa.jsx"
 import ListaPessoas from "../componentes/listapessoas/ListaPessoas.jsx";
