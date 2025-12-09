@@ -4,7 +4,7 @@ import PessoaForm from "../componentes/cadastrapessoas/PessoaForm.jsx";
 import PessoaFormOO from "../componentes/cadastrapessoas/EditaPessoa.jsx"
 import ListaPessoas from "../componentes/listapessoas/ListaPessoas.jsx";
 import VisualizaPessoa from "../componentes/visualizapessoas/VisualizaPessoa.jsx";
-
+import ConsultasForm from "../componentes/consulta/ConsultasForm.jsx"
 
 export default function AppRoutes() {
   return (
@@ -14,6 +14,7 @@ export default function AppRoutes() {
           <Route index element={<Navigate to="pessoa" replace />} />
           <Route path="pessoa"  element={<PessoaForm />} />
           <Route path="lista" element={<ListaPessoas />} />
+          <Route path="consultas" element={<ConsultasForm/>} />
           <Route path="visualizar/:tipo/:id" element={<VisualizaPessoa />} />
           <Route path="editar/:tipo/:id" element={<PessoaFormOO/>} /> 
          </Route>

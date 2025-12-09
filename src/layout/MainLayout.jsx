@@ -30,6 +30,7 @@ export default function MainLayout() {
           items={[
             { key: "/pessoa", label: <Link to="/pessoa">Cadastro</Link> },
             { key: "/lista", label: <Link to="/lista">Lista</Link> },
+            { key: "/consultas", label: <Link to="/consultas">Consultas</Link>},
           ]}
         />
       </Header>
