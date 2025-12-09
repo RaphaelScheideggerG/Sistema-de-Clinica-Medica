@@ -1,6 +1,8 @@
-export default class BaseDAO {
-  constructor() {
-    
+import Consulta from "../modelos/Consulta.mjs"
+
+export default class ConsultaDAO {
+    constructor() {
+    this.chave = "consultas";
   }
 
 
@@ -16,14 +18,26 @@ export default class BaseDAO {
 
 
   gerarId() {
-    // Gera ID único (timestamp + random)
     return Date.now().toString(36) + Math.random().toString(36).substring(2, 9);
   }
 
 
-  salvar(paciente) {
+  toPlain(consulta) {
+    if (!consulta) return {};
+    const data = consulta.getData?.() || "";
+    return {
+      id: consulta.id ?? this.gerarId(),
+      pacienteID: consulta.getPacienteID?.(),
+      medicoID: consulta.getMedicoID?.(),
+      diagnostico: consulta.getDiagnostico?.(),
+      data: data,
+    };
+  }
+
+
+  salvar(consulta) {
     const lista = this.listar();
-    const obj = this.toPlain(paciente);
+    const obj = this.toPlain(consulta);
     if (!obj.id) obj.id = this.gerarId();
     lista.push(obj);
     localStorage.setItem(this.chave, JSON.stringify(lista));
@@ -31,21 +45,22 @@ export default class BaseDAO {
   }
 
 
-  atualizar(id, novoPaciente) {
+  atualizar(id, novaConsulta) {
     const lista = this.listar();
-    const obj = this.toPlain(novoPaciente);
+    const obj = this.toPlain(novaConsulta);
     obj.id = id;
 
-    const idx = lista.findIndex((p) => p.id === id);
+    const idx = lista.findIndex((c) => c.id === id);
     if (idx >= 0) lista[idx] = obj;
     else lista.push(obj);
+
 
     localStorage.setItem(this.chave, JSON.stringify(lista));
   }
 
 
   excluir(id) {
-    const novaLista = this.listar().filter((p) => p.id !== id);
+    const novaLista = this.listar().filter((c) => c.id !== id);
     localStorage.setItem(this.chave, JSON.stringify(novaLista));
   }
 }
