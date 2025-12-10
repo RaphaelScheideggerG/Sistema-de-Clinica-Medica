@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './seu-arquivo-de-estilo.css';
+import './FormularioConsulta.css';
 
 const FormularioConsulta = () => {
   const [consulta, setConsulta] = useState({
