@@ -1,5 +1,5 @@
 import AppRoutes from "./routes/AppRoutes";
-import FormularioConsulta from "./componentes/formularioconsulta/FormularioConsulta"; 
+import FormularioConsulta from "./componentes/cadastraconsultas/FormularioConsulta"; 
 
 function App() {
   return (
