@@ -54,7 +54,7 @@ export default function EditaPessoa() {
     dao.atualizar(id, pessoaAtualizada);
 
     message.success("Registro atualizado com sucesso!");
-    navigate("/lista");
+    navigate("/pessoas");
   };
 
   return (

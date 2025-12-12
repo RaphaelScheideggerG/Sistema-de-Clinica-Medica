@@ -4,7 +4,7 @@ import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs"
 import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
-import dayjs from 'dayjs'; // ⬅️ Importação do Day.js
+import dayjs from 'dayjs';
 
 export default function ListaPessoas() {
   const navigate = useNavigate();
@@ -50,10 +50,9 @@ export default function ListaPessoas() {
     },
     {
       title: "Data de Nascimento",
-      dataIndex: "datanascimento",
+      dataIndex: "dataNascimento",
       key: "dataNascimento",
       width: 160,
-      // 🎯 MODIFICAÇÃO AQUI: Usando Day.js para formatação
       render: (data) => (data ? dayjs(data).format('DD/MM/YYYY') : "-"),
     },
     {
@@ -75,11 +74,11 @@ export default function ListaPessoas() {
         <Space>
           <Button
             icon={<EyeOutlined />}
-            onClick={() => navigate(`/visualizar/${tipo}/${record.id}`)}
+            onClick={() => navigate(`/visualizar-pessoa/${tipo}/${record.id}`)}
           />
           <Button
             icon={<EditOutlined />}
-            onClick={() => navigate(`/editar/${tipo}/${record.id}`)}
+            onClick={() => navigate(`/editar-pessoa/${tipo}/${record.id}`)}
           />
           <Popconfirm
             title="Deseja realmente excluir?"
@@ -128,11 +127,11 @@ export default function ListaPessoas() {
         <Space>
           <Button
             icon={<EyeOutlined />}
-            onClick={() => navigate(`/visualizar/${tipo}/${record.id}`)}
+            onClick={() => navigate(`/visualizar-pessoa/${tipo}/${record.id}`)}
           />
           <Button
             icon={<EditOutlined />}
-            onClick={() => navigate(`/editar/${tipo}/${record.id}`)}
+            onClick={() => navigate(`/editar-pessoa/${tipo}/${record.id}`)}
           />
           <Popconfirm
             title="Deseja realmente excluir?"

@@ -25,7 +25,7 @@ export default function VisualizaPessoa() {
     return (
       <div style={{ textAlign: "center", marginTop: 40 }}>
         <h3>Nenhuma pessoa encontrada.</h3>
-        <Button type="primary" onClick={() => navigate("/lista")}>
+        <Button type="primary" onClick={() => navigate("/pessoas")}>
           Voltar à lista
         </Button>
       </div>
@@ -44,7 +44,7 @@ export default function VisualizaPessoa() {
     if (pessoa.contato.tipo === "Email") {
       return <Tag color="green">📧 {pessoa.contato.contato}</Tag>;
     }
-
+    console.log(pessoa)
     return pessoa.contato;
   };
 
@@ -69,11 +69,11 @@ export default function VisualizaPessoa() {
           {tipo === "Paciente" ? (
             <>
               <Descriptions.Item label="CPF">{pessoa.cpf}</Descriptions.Item>
-              <Descriptions.Item label="Data de Nascimento">
-                {pessoa.dataNascimento
-                  ? dayjs(pessoa.dataNascimento).format("DD/MM/YYYY")
-                  : "Não informado"}
-              </Descriptions.Item>
+                <Descriptions.Item label="Data de Nascimento">
+                  {pessoa.dataNascimento 
+                    ? dayjs(pessoa.dataNascimento).format("DD/MM/YYYY")
+                    : "Não informado"}
+                </Descriptions.Item>
               <Descriptions.Item label="Contato">{renderContato()}</Descriptions.Item>
             </>
           ) : (
@@ -96,12 +96,24 @@ export default function VisualizaPessoa() {
         <div style={{ textAlign: "center", marginTop: 24 }}>
           <Button
             type="primary"
-            onClick={() => navigate(`/editar/${tipo}/${pessoa.id}`)}
+            onClick={() => navigate(`/editar-pessoa/${tipo}/${pessoa.id}`)}
             style={{ marginRight: 12 }}
           >
             Editar
           </Button>
-          <Button onClick={() => navigate("/lista")}>Voltar</Button>
+          
+          <Button onClick={() => navigate("/pessoas")}>
+            Voltar
+          </Button>
+
+          <Button
+            style={{ marginLeft: 12 }}
+            onClick={() => navigate(`/consultas/${tipo}/${pessoa.id}`)}
+          >
+            Consultas
+          </Button>
+
+
         </div>
       </Card>
     </div>

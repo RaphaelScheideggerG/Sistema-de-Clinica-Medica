@@ -28,8 +28,8 @@ export default function MainLayout() {
           mode="horizontal"
           selectedKeys={[location.pathname]}
           items={[
-            { key: "/pessoa", label: <Link to="/pessoa">Cadastro</Link> },
-            { key: "/lista", label: <Link to="/lista">Lista</Link> },
+            { key: "/cadastro", label: <Link to="/cadastro">Cadastro</Link> },
+            { key: "/pessoas", label: <Link to="/pessoas">Pessoas</Link> },
             { key: "/consultas", label: <Link to="/consultas">Consultas</Link>},
           ]}
         />

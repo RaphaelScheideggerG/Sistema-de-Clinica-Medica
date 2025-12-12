@@ -30,6 +30,7 @@ export default class ConsultaDAO {
       pacienteID: consulta.getPacienteID?.(),
       medicoID: consulta.getMedicoID?.(),
       diagnostico: consulta.getDiagnostico?.(),
+      tratamento: consulta.getTratamento?.(),
       data: data,
     };
   }
@@ -53,7 +54,6 @@ export default class ConsultaDAO {
     const idx = lista.findIndex((c) => c.id === id);
     if (idx >= 0) lista[idx] = obj;
     else lista.push(obj);
-
 
     localStorage.setItem(this.chave, JSON.stringify(lista));
   }
