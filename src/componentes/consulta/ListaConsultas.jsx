@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Popconfirm, message, Input } from "antd";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { normalizarListaConsultas } from "../../utils/normalizadores.mjs";
 import dayjs from "dayjs";
 import ConsultaDAO from "../../objetos/dao/ConsultaDAO.mjs";
-import { normalizarListaConsultas } from "../../utils/normalizadores.mjs";
+import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs"
+import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
 
 export default function ListaConsultas() {
   const navigate = useNavigate();
@@ -24,11 +26,21 @@ export default function ListaConsultas() {
         return dataConsulta.includes(filtroData);
       });
     }
-  
-    filtradas = normalizarListaConsultas(filtradas);
-    setDados(filtradas);
-    console.log("Consultas encontradas:", filtradas);
+
+    // ✅ Carregar nomes de pacientes e médicos
+    const pacientes = new PacienteDAO().listar();
+    const medicos = new MedicoDAO().listar();
+
+    const mapaPacientes = Object.fromEntries(pacientes.map(p => [p.id, p.nome]));
+    const mapaMedicos = Object.fromEntries(medicos.map(m => [m.id, m.nome]));
+
+    // ✅ Passar os mapas para o normalizador
+    const normalizadas = normalizarListaConsultas(filtradas, mapaPacientes, mapaMedicos);
+
+    setDados(normalizadas);
+    console.log("Consultas encontradas:", normalizadas);
   }
+
   function excluirConsulta(id) {
     const dao = new ConsultaDAO();
     dao.excluir(id);
@@ -79,12 +91,14 @@ export default function ListaConsultas() {
   return (
     <div
       style={{
+        width: "100%",
         maxWidth: 1000,
         margin: "24px auto",
         background: "#fff",
-        padding: 24,
+        padding: "16px",
         borderRadius: 8,
         boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+        overflowX: "hidden",
       }}
     >
       <h2 style={{ textAlign: "center", marginBottom: 20 }}>
@@ -97,7 +111,7 @@ export default function ListaConsultas() {
           value={filtroData}
           onChange={(e) => setFiltroData(e.target.value)}
           allowClear
-          style={{ width: 300 }}
+          style={{ width: 190 }}
         />
         <Button type="primary" onClick={encontrarConsulta}>
           Atualizar

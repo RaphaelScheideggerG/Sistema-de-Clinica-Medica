@@ -14,35 +14,39 @@ export default function MainLayout() {
         flexDirection: "column",
       }}
     >
-      <Header
-        style={{
-          background: "#d64545",
-          position: "sticky",   // fixa no topo
-          top: 0,
-          zIndex: 1000,
-          width: "100%",
-        }}
-      >
+      <Header style={{ background: "#d64545", overflowX: "auto" }}>
         <Menu
           theme="dark"
           mode="horizontal"
+          style={{ minWidth: "max-content" }}
           selectedKeys={[location.pathname]}
           items={[
             { key: "/cadastro", label: <Link to="/cadastro">Cadastro</Link> },
             { key: "/pessoas", label: <Link to="/pessoas">Pessoas</Link> },
-            { key: "/consultas", label: <Link to="/consultas">Consultas</Link>},
+            { key: "/consultas", label: <Link to="/consultas">Consultas</Link> },
           ]}
         />
       </Header>
+
 
       <Content
         style={{
           padding: "24px",
           flex: 1,
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <Outlet />
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "900px",
+          }}
+        >
+          <Outlet />
+        </div>
       </Content>
+
 
       <Footer
         style={{
@@ -50,7 +54,7 @@ export default function MainLayout() {
           background: "#fff",
         }}
       >
-        Cadastro de Pessoas — Clínica Médica
+        Sistema — Clínica Médica
       </Footer>
     </Layout>
   );
