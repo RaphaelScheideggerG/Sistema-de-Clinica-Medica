@@ -20,11 +20,21 @@ export default function ListaConsultas() {
     const dao = new ConsultaDAO();
     const consultas = dao.listar();
 
+    // ✅ Filtrar só as consultas da pessoa
     let filtradas = consultas.filter((c) =>
       tipo === "Paciente" ? c.pacienteID === id : c.medicoID === id
     );
 
-    filtradas = normalizarListaConsultas(filtradas);
+    // ✅ Carregar nomes de pacientes e médicos
+    const pacientes = new PacienteDAO().listar();
+    const medicos = new MedicoDAO().listar();
+
+    const mapaPacientes = Object.fromEntries(pacientes.map(p => [p.id, p.nome]));
+    const mapaMedicos = Object.fromEntries(medicos.map(m => [m.id, m.nome]));
+
+    // ✅ Normalizar com os mapas
+    filtradas = normalizarListaConsultas(filtradas, mapaPacientes, mapaMedicos);
+
     setDados(filtradas);
   }
 
@@ -85,25 +95,28 @@ export default function ListaConsultas() {
   return (
     <div
       style={{
+        width: "100%",
         maxWidth: 1000,
         margin: "24px auto",
         background: "#fff",
-        padding: 24,
+        padding: "16px",
         borderRadius: 8,
         boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+        overflowX: "hidden",
       }}
     >
+
       <h2 style={{ textAlign: "center", marginBottom: 20 }}>
         Consultas de {nomePessoa} ({tipo})
       </h2>
 
-      <Space style={{ marginBottom: 20 }}>
+      <Space wrap style={{ marginBottom: 20 }}>
         <Input
           placeholder="Filtrar por data"
           value={filtroData}
           onChange={(e) => setFiltroData(e.target.value)}
           allowClear
-          style={{ width: 300 }}
+          style={{ minWidth: 200, maxWidth: "100%" }}
         />
         <Button type="primary" onClick={encontrarConsulta}>
           Atualizar
@@ -115,6 +128,7 @@ export default function ListaConsultas() {
         columns={colunasConsultas}
         rowKey="id"
         pagination={{ pageSize: 6 }}
+        scroll={{ x: "max-content" }}
       />
     </div>
   );
