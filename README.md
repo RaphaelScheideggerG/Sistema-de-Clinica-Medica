@@ -5,7 +5,7 @@ Permite cadastrar pacientes, médicos e gerenciar consultas com filtros dinâmic
 
 ---
 
-🚀 **Tecnologias Utilizadas**
+🚀 Tecnologias Utilizadas
 O projeto foi desenvolvido combinando performance e design moderno:
 - React.js: Construção da interface reativa e componentizada
 - Ant Design (AntD): Layout profissional, tabelas e componentes visuais
@@ -13,7 +13,7 @@ O projeto foi desenvolvido combinando performance e design moderno:
 
 ---
 
-⚙ **Funcionalidades do Sistema**
+⚙ Funcionalidades do Sistema
 O sistema é dividido em três módulos principais, acessíveis pela barra de navegação superior:
 1. 🧑 Pacientes
 Cadastro e manutenção da base de clientes da clínica.
@@ -32,14 +32,7 @@ Módulo central para agendamento e histórico de atendimentos.
 
 ---
 
-📐 **Diagrama UML do Sistema**
-Abaixo está o diagrama UML representando a estrutura das entidades do sistema:
-
-![Diagrama UML](./diagramaUML.png)
-
----
-
-💡 **Roteiro de Teste Recomendado**
+💡 Roteiro de Teste Recomendado
 Como o sistema utiliza armazenamento temporário no navegador (sem banco de dados persistente), recomenda-se seguir este fluxo:
 - Cadastre ao menos um Médico
 - Cadastre ao menos um Paciente
@@ -49,16 +42,13 @@ Como o sistema utiliza armazenamento temporário no navegador (sem banco de dado
 
 ---
 
-💻 **Como Rodar (StackBlitz)**
+💻 Como Rodar (StackBlitz)
 Este projeto está hospedado no StackBlitz, permitindo execução imediata:
 - Acesse o link do projeto
 - Aguarde a instalação automática das dependências
 - O sistema abrirá no painel de preview
-
-**Execução local (VS Code)**
-git clone "url/do/projeto.git"
-cd sistema-de-clinica-medica
+✅ Execução local (VS Code)
 npm install
-npm run dev
+npm start
 
 ---
