@@ -34,7 +34,6 @@ Módulo central para agendamento e histórico de atendimentos.
 
 📐 Diagrama UML do Sistema
 Abaixo está o diagrama UML representando a estrutura das entidades do sistema:
-Substitua o caminho abaixo pela imagem que você enviou para o repositório.
 
 ![Diagrama UML](./diagrama.png)
 
