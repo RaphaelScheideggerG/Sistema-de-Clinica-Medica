@@ -68,6 +68,13 @@ export default function ListaConsultas() {
       render: (data) => (data ? dayjs(data).format("DD/MM/YYYY") : "-"),
     },
     {
+      title: "Turno",
+      dataIndex: "turno",
+      key: "turno",
+      width: 140,
+      render: (turno) => turno || "-",
+    },
+    {
       title: "Ações",
       key: "acoes",
       width: 180,

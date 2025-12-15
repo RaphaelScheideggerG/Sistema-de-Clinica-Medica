@@ -24,14 +24,14 @@ export default class ConsultaDAO {
 
   toPlain(consulta) {
     if (!consulta) return {};
-    const data = consulta.getData?.() || "";
     return {
       id: consulta.id ?? this.gerarId(),
       pacienteID: consulta.getPacienteID?.(),
       medicoID: consulta.getMedicoID?.(),
       diagnostico: consulta.getDiagnostico?.(),
       tratamento: consulta.getTratamento?.(),
-      data: data,
+      data: consulta.getData?.(),
+      turno: consulta.getTurno?.(),
     };
   }
 

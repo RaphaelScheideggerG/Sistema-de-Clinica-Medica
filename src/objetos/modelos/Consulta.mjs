@@ -1,9 +1,11 @@
 export default class Consulta {
-  #pacienteID
-  #medicoID
-  #data
-  #diagnostico
-  #tratamento
+  static limiteTurno = 2;
+  #pacienteID;
+  #medicoID;
+  #data;
+  #diagnostico;
+  #tratamento;
+  #turno;
 
   setPacienteID(id) {
     if (id) {
@@ -63,5 +65,29 @@ export default class Consulta {
 
   getData() {
     return this.#data;
+  }
+
+  setTurno(turno) {
+    if (turno) {
+      this.#turno = turno;
+      return true;
+    }
+    return false;
+  }
+
+  getTurno() {
+    return this.#turno;
+  }
+
+  static setLimiteTurno(lim) {
+    if (typeof lim === "number"){
+      Consulta.limiteTurno = lim
+      return true
+    }
+    return false
+  }
+
+  static getLimiteTurno(){
+    return Consulta.limiteTurno
   }
 }
