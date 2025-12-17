@@ -1,9 +1,16 @@
+import { Table, Button, Space, Popconfirm, message, Input, DatePicker } from "antd";
+const { RangePicker } = DatePicker;
 import React, { useEffect, useState } from "react";
-import { Table, Button, Space, Popconfirm, message, Input } from "antd";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { normalizarListaConsultas } from "../../utils/normalizadores.mjs";
+
 import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+
 import ConsultaDAO from "../../objetos/dao/ConsultaDAO.mjs";
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs"
 import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
@@ -11,7 +18,7 @@ import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
 export default function ListaConsultas() {
   const navigate = useNavigate();
 
-  const [filtroData, setFiltroData] = useState("");
+  const [periodo, setPeriodo] = useState([]);
   const [dados, setDados] = useState([]);
 
   // Função para achar as consultas
@@ -20,12 +27,17 @@ export default function ListaConsultas() {
     const consultas = dao.listar();
 
     let filtradas = consultas;
-    if (filtroData.trim() !== "") {
+    if (periodo.length === 2) {
+      const [inicio, fim] = periodo;
       filtradas = filtradas.filter((c) => {
-        const dataConsulta = dayjs(c.data).format("DD/MM/YYYY");
-        return dataConsulta.includes(filtroData);
+        const dataConsulta = dayjs(c.data);
+        return (
+          dataConsulta.isSameOrAfter(inicio, "day") &&
+          dataConsulta.isSameOrBefore(fim, "day")
+        );
       });
     }
+
 
     // ✅ Carregar nomes de pacientes e médicos
     const pacientes = new PacienteDAO().listar();
@@ -51,7 +63,8 @@ export default function ListaConsultas() {
 
   useEffect(() => {
     encontrarConsulta();
-  }, [filtroData]);
+  }, [periodo]);
+
 
   const colunasConsultas = [
     { title: "Paciente", dataIndex: "pacienteNome", key: "pacienteID" },
@@ -62,6 +75,13 @@ export default function ListaConsultas() {
       key: "data",
       width: 160,
       render: (data) => (data ? dayjs(data).format("DD/MM/YYYY") : "-"),
+    },
+    {
+      title: "Turno",
+      dataIndex: "turno",
+      key: "turno",
+      width: 140,
+      render: (turno) => turno || "-",
     },
     {
       title: "Ações",
@@ -106,12 +126,11 @@ export default function ListaConsultas() {
       </h2>
 
       <Space style={{ marginBottom: 20 }}>
-        <Input
-          placeholder="Filtrar por data"
-          value={filtroData}
-          onChange={(e) => setFiltroData(e.target.value)}
-          allowClear
-          style={{ width: 190 }}
+        <RangePicker
+          format="DD/MM/YYYY"
+          value={periodo}
+          onChange={(values) => setPeriodo(values || [])}
+          style={{ width: 260 }}
         />
         <Button type="primary" onClick={encontrarConsulta}>
           Atualizar

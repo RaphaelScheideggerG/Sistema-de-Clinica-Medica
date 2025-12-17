@@ -47,6 +47,7 @@ export default function VisualizaConsulta() {
           <Descriptions.Item label="Data">
             {consulta.data ? dayjs(consulta.data).format("DD/MM/YYYY") : "Não informado"}
           </Descriptions.Item>
+          <Descriptions.Item label="Turno">{consulta.turno || "Não informado"}</Descriptions.Item>
           <Descriptions.Item label="Diagnóstico">{consulta.diagnostico || "Não informado"}</Descriptions.Item>
           <Descriptions.Item label="Tratamento">{consulta.tratamento || "Não informado"}</Descriptions.Item>
         </Descriptions>

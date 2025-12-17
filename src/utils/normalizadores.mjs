@@ -81,5 +81,6 @@ export function criarConsulta(values) {
   consulta.setDiagnostico(values.diagnostico);
   consulta.setTratamento(values.tratamento);
   consulta.setData(values.data);
+  consulta.setTurno(values.turno);
   return consulta;
 }

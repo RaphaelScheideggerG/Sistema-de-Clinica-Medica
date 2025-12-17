@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { Form, Input, Radio, Button, message, Space, Card } from "antd";
 
-import TelefoneForm from "./TelefoneForm";
-import EmailForm from "./EmailForm";
 import { criarConsulta, criarPessoa } from "../../utils/normalizadores.mjs";
 
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs";
-import PacienteForm from "./PacienteForm.jsx";
 
 import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
-import MedicoForm from "./MedicoForm.jsx"
 
 import PessoaForm from "./PessoaForm.jsx";
 import ConsultaDAO from "../../objetos/dao/ConsultaDAO.mjs";
 import ConsultaForm from "../consulta/ConsultaForm.jsx";
+
+import Consulta from "../../objetos/modelos/Consulta.mjs"
 
 export default function PessoaFormOO() {
   const [form] = Form.useForm();
@@ -32,10 +30,29 @@ export default function PessoaFormOO() {
         dao = tipo === "Paciente" ? new PacienteDAO() : new MedicoDAO();
         await dao.salvar(entidade);
         message.success("Pessoa cadastrada com sucesso!");
-      } 
-      else if (tipo === "Consulta") {
+      } else if (tipo === "Consulta") {
         entidade = criarConsulta(values);
         dao = new ConsultaDAO();
+
+        const consultas = dao.listar();
+
+        // ✅ Normalizar data para comparação sem alterar o formato salvo
+        const dataFormatada = values.data.toISOString().slice(0, 10);
+
+        const consultasMesmoTurno = consultas.filter(c => {
+          const dataConsulta = new Date(c.data).toISOString().slice(0, 10);
+          return (
+            c.medicoID === values.medicoID &&
+            dataConsulta === dataFormatada &&
+            c.turno === values.turno
+          );
+        });
+
+        if (consultasMesmoTurno.length >= Consulta.getLimiteTurno()) {
+          message.error("Limite de consultas para esse turno atingido!");
+          return;
+        }
+
         await dao.salvar(entidade);
         message.success("Consulta cadastrada com sucesso!");
       }
@@ -51,7 +68,6 @@ export default function PessoaFormOO() {
       console.log(e);
     }
   };
-
 
 
 
