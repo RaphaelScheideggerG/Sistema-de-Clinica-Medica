@@ -94,14 +94,19 @@ const TelefoneForm = () => {
         <Form.Item
           name={['telefone', 'numero']}
           noStyle
-          rules={[{ required: true, message: 'Telefone obrigatório' }]}
+          rules={[
+            { required: true, message: 'Telefone obrigatório' },
+            { pattern: /^[0-9]+$/, message: 'Digite apenas números' }
+          ]}
         >
           <Input
             style={{ width: 'calc(100% - 120px)' }}
-            placeholder="9xxxx-yyyy"
+            placeholder="9xxxxyyyy"
             maxLength={9}
           />
         </Form.Item>
+
+
       </Input.Group>
     </Form.Item>
   );

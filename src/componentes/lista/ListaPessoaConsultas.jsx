@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Space, DatePicker, message } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { Table, Button, Space, DatePicker, message, Popconfirm, Checkbox } from "antd";
+import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 
 import dayjs from "dayjs";
@@ -24,6 +24,7 @@ export default function ListaPessoaConsultas() {
   const [periodo, setPeriodo] = useState([]);
   const [dados, setDados] = useState([]);
   const [nomePessoa, setNomePessoa] = useState("");
+  const [ocultarPassadas, setOcultarPassadas] = useState(false);
 
   // Buscar nome da pessoa
   function encontrarPessoa() {
@@ -37,7 +38,7 @@ export default function ListaPessoaConsultas() {
     const dao = new ConsultaDAO();
     let consultas = dao.listar();
 
-    //Filtrar pela pessoa específica
+    // Filtrar pela pessoa específica
     consultas = consultas.filter((c) =>
       tipo === "Paciente" ? c.pacienteID === id : c.medicoID === id
     );
@@ -53,6 +54,14 @@ export default function ListaPessoaConsultas() {
           dataConsulta.isSameOrBefore(fim, "day")
         );
       });
+    }
+
+    // Ocultar consultas passadas
+    if (ocultarPassadas) {
+      const hoje = dayjs();
+      consultas = consultas.filter((c) =>
+        dayjs(c.data).isSameOrAfter(hoje, "day")
+      );
     }
 
     const pacientes = new PacienteDAO().listar();
@@ -73,7 +82,7 @@ export default function ListaPessoaConsultas() {
   useEffect(() => {
     encontrarPessoa();
     buscarConsultas();
-  }, [periodo, tipo, id]);
+  }, [periodo, ocultarPassadas, tipo, id]);
 
   const colunas = [
     { title: "Paciente", dataIndex: "pacienteNome", key: "pacienteID" },
@@ -94,11 +103,31 @@ export default function ListaPessoaConsultas() {
     {
       title: "Ações",
       key: "acoes",
+      width: 180,
       render: (_, record) => (
-        <Button
-          icon={<EyeOutlined />}
-          onClick={() => navigate(`/visualizar-consulta/${record.id}`)}
-        />
+        <Space>
+          <Button
+            icon={<EyeOutlined />}
+            onClick={() => navigate(`/visualizar-consulta/${record.id}`)}
+          />
+
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => navigate(`/editar-consulta/${record.id}`)}
+          />
+
+          <Popconfirm
+            title="Deseja realmente excluir?"
+            onConfirm={() => {
+              const dao = new ConsultaDAO();
+              dao.excluir(record.id);
+              message.success("Registro excluído com sucesso!");
+              buscarConsultas();
+            }}
+          >
+            <Button danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
@@ -119,18 +148,23 @@ export default function ListaPessoaConsultas() {
         Consultas de {nomePessoa} ({tipo})
       </h2>
 
-      <Space style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20 }}>
         <RangePicker
           format="DD/MM/YYYY"
           value={periodo}
           onChange={(values) => setPeriodo(values || [])}
           style={{ width: 260 }}
         />
+      </div>
 
-        <Button type="primary" onClick={buscarConsultas}>
-          Atualizar
-        </Button>
-      </Space>
+      <div style={{ marginBottom: 20 }}>
+        <Checkbox
+          checked={ocultarPassadas}
+          onChange={(e) => setOcultarPassadas(e.target.checked)}
+        >
+          Ocultar consultas passadas
+        </Checkbox>
+      </div>
 
       <Table
         dataSource={dados}

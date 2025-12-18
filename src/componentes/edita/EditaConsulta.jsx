@@ -5,7 +5,7 @@ import { criarConsulta } from "../../utils/normalizadores.mjs";
 import dayjs from "dayjs";
 
 import ConsultaDAO from "../../objetos/dao/ConsultaDAO.mjs";
-import ConsultaForm from "./ConsultaForm.jsx";
+import ConsultaForm from "../form/ConsultaForm.jsx";
 import Consulta from "../../objetos/modelos/Consulta.mjs"
 
 

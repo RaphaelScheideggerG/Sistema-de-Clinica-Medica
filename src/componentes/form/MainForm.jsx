@@ -9,7 +9,7 @@ import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs"
 
 import PessoaForm from "./PessoaForm.jsx";
 import ConsultaDAO from "../../objetos/dao/ConsultaDAO.mjs";
-import ConsultaForm from "../consulta/ConsultaForm.jsx";
+import ConsultaForm from "../form/ConsultaForm.jsx";
 
 import Consulta from "../../objetos/modelos/Consulta.mjs"
 
