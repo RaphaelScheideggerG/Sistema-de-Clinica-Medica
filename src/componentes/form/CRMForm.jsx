@@ -41,7 +41,10 @@ const CRMForm = () => {
         <Form.Item
           name={['crm', 'numero']}
           noStyle
-          rules={[{ required: true, message: 'CRM obrigatório' }]}
+          rules={[
+            { required: true, message: 'CRM obrigatório' },
+            { pattern: /^[0-9]+$/, message: 'Digite apenas números' }
+          ]}
         >
           <Input
             style={{ width: 'calc(100% - 120px)' }}

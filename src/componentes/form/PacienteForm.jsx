@@ -10,7 +10,8 @@ export default function PacienteForm() {
         name="cpf"
         rules={[
           { required: true, message: "Informe o CPF!" },
-          { len: 11, message: "O CPF deve ter 11 números exatos" }
+          { len: 11, message: "O CPF deve ter 11 números exatos" },
+          { pattern: /^[0-9]+$/, message: "Digite apenas números" }
         ]}
       >
         <Input placeholder="Somente números" maxLength={11} />

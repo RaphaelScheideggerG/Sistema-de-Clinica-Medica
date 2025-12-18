@@ -1,4 +1,4 @@
-import { Table, Button, Space, Popconfirm, message, Input, DatePicker } from "antd";
+import { Table, Button, Space, Popconfirm, message, Input, DatePicker, Checkbox } from "antd";
 const { RangePicker } = DatePicker;
 import React, { useEffect, useState } from "react";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -20,6 +20,7 @@ export default function ListaConsultas() {
 
   const [periodo, setPeriodo] = useState([]);
   const [dados, setDados] = useState([]);
+  const [ocultarPassadas, setOcultarPassadas] = useState(false);
 
   // Função para achar as consultas
   function encontrarConsulta() {
@@ -38,15 +39,21 @@ export default function ListaConsultas() {
       });
     }
 
+    // Ocultar consultas dos dias anteriores
+    if (ocultarPassadas) {
+      const hoje = dayjs();
+      filtradas = filtradas.filter((c) => dayjs(c.data).isSameOrAfter(hoje, "day"));
+    }
 
-    // ✅ Carregar nomes de pacientes e médicos
+
+    // Carregar nomes de pacientes e médicos
     const pacientes = new PacienteDAO().listar();
     const medicos = new MedicoDAO().listar();
 
     const mapaPacientes = Object.fromEntries(pacientes.map(p => [p.id, p.nome]));
     const mapaMedicos = Object.fromEntries(medicos.map(m => [m.id, m.nome]));
 
-    // ✅ Passar os mapas para o normalizador
+    // Passar os mapas para o normalizador
     const normalizadas = normalizarListaConsultas(filtradas, mapaPacientes, mapaMedicos);
 
     setDados(normalizadas);
@@ -62,8 +69,7 @@ export default function ListaConsultas() {
 
   useEffect(() => {
     encontrarConsulta();
-  }, [periodo]);
-
+  }, [periodo, ocultarPassadas]);
 
   const colunasConsultas = [
     { title: "Paciente", dataIndex: "pacienteNome", key: "pacienteID" },
@@ -124,17 +130,25 @@ export default function ListaConsultas() {
         Consultas Gerais
       </h2>
 
-      <Space style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20 }}>
         <RangePicker
           format="DD/MM/YYYY"
           value={periodo}
           onChange={(values) => setPeriodo(values || [])}
           style={{ width: 260 }}
         />
-        <Button type="primary" onClick={encontrarConsulta}>
-          Atualizar
-        </Button>
-      </Space>
+      </div>
+
+      <div style={{ marginBottom: 20 }}>
+        <Checkbox
+          checked={ocultarPassadas}
+          onChange={(e) => setOcultarPassadas(e.target.checked)}
+        >
+          Ocultar consultas passadas
+        </Checkbox>
+      </div>
+
+
 
       <Table
         dataSource={dados}
@@ -142,6 +156,7 @@ export default function ListaConsultas() {
         rowKey="id"
         pagination={{ pageSize: 6 }}
       />
+
     </div>
   );
 }

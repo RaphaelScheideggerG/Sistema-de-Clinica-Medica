@@ -9,7 +9,11 @@ export default class ConsultaDAO {
   listar() {
     try {
       const dados = localStorage.getItem(this.chave);
-      return dados ? JSON.parse(dados) : [];
+      const lista = dados ? JSON.parse(dados) : [];
+
+      lista.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+      return lista;
     } catch (e) {
       console.error("Erro ao ler Paciente:", e);
       return [];
