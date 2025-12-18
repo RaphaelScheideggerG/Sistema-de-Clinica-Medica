@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Space, DatePicker, message } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { Table, Button, Space, DatePicker, message, Popconfirm } from "antd";
+import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 
 import dayjs from "dayjs";
@@ -94,11 +94,31 @@ export default function ListaPessoaConsultas() {
     {
       title: "Ações",
       key: "acoes",
+      width: 180,
       render: (_, record) => (
-        <Button
-          icon={<EyeOutlined />}
-          onClick={() => navigate(`/visualizar-consulta/${record.id}`)}
-        />
+        <Space>
+          <Button
+            icon={<EyeOutlined />}
+            onClick={() => navigate(`/visualizar-consulta/${record.id}`)}
+          />
+
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => navigate(`/editar-consulta/${record.id}`)}
+          />
+
+          <Popconfirm
+            title="Deseja realmente excluir?"
+            onConfirm={() => {
+              const dao = new ConsultaDAO();
+              dao.excluir(record.id);
+              message.success("Registro excluído com sucesso!");
+              buscarConsultas();
+            }}
+          >
+            <Button danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </Space>
       ),
     },
   ];

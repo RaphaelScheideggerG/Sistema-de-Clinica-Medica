@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "../layout/MainLayout.jsx"
-import MainForm from "../componentes/cadastrapessoas/MainForm.jsx"
+import MainForm from "../componentes/form/MainForm.jsx"
 
-import EditaPessoa from "../componentes/cadastrapessoas/EditaPessoa.jsx"
-import ListaPessoas from "../componentes/listapessoas/ListaPessoas.jsx";
-import VisualizaPessoa from "../componentes/visualizapessoas/VisualizaPessoa.jsx";
+import EditaPessoa from "../componentes/edita/EditaPessoa.jsx"
+import ListaPessoas from "../componentes/lista/ListaPessoas.jsx";
+import VisualizaPessoa from "../componentes/visualiza/VisualizaPessoa.jsx";
 
-import EditaConsulta from "../componentes/consulta/EditaConsulta.jsx";
-import ListaConsultas from "../componentes/consulta/ListaConsultas.jsx"
-import ListaPessoaConsultas from "../componentes/consulta/ListaPessoaConsultas.jsx"
-import VisualizaConsulta from "../componentes/consulta/VisualizaConsulta.jsx";
+import EditaConsulta from "../componentes/edita/EditaConsulta.jsx";
+import ListaConsultas from "../componentes/lista/ListaConsultas.jsx"
+import ListaPessoaConsultas from "../componentes/lista/ListaPessoaConsultas.jsx"
+import VisualizaConsulta from "../componentes/visualiza/VisualizaConsulta.jsx";
 
 export default function AppRoutes() {
   return (

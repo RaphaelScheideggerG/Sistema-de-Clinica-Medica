@@ -58,7 +58,6 @@ export default function ListaConsultas() {
     dao.excluir(id);
     message.success("Registro excluído com sucesso!");
     encontrarConsulta();
-    encontrarPessoa();
   }
 
   useEffect(() => {

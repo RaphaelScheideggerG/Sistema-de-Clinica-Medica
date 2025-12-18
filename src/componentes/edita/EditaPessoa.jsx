@@ -6,10 +6,10 @@ import dayjs from "dayjs";
 import PacienteDAO from "../../objetos/dao/PacienteDAO.mjs";
 import MedicoDAO from "../../objetos/dao/MedicoDAO.mjs";
 
-import PacienteForm from "./PacienteForm.jsx";
-import MedicoForm from "./MedicoForm.jsx";
-import TelefoneForm from "./TelefoneForm.jsx";
-import EmailForm from "./EmailForm.jsx";
+import PacienteForm from "../form/PacienteForm.jsx";
+import MedicoForm from "../form/MedicoForm.jsx";
+import TelefoneForm from "../form/TelefoneForm.jsx";
+import EmailForm from "../form/EmailForm.jsx";
 
 import { criarPessoa } from "../../utils/normalizadores.mjs";
 
