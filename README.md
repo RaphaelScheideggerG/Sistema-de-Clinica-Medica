@@ -86,6 +86,13 @@ As telas abaixo ilustram as principais funcionalidades do sistema.
 ## Tela 3 Lista Consultas
 ![Tela Consultas](./telaconsultas.png)
 
+## Tela 4 Visualiza Pessoas
+![Tela Consultas](./telavisualizapaciente.png)
+![Tela Consultas](./telavisualizamedico.png)
+
+## Tela 5 Visualiza Consulta
+![Tela Consultas](./telavisualizaconsulta.png)
+
 ---
 
 🧠 Modelagem dos Dados
