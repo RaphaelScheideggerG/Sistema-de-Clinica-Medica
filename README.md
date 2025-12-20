@@ -98,7 +98,7 @@ As telas abaixo ilustram as principais funcionalidades do sistema.
 🧠 Modelagem dos Dados
 📌 Diagrama de Classes
 O diagrama de classes abaixo representa o modelo conceitual utilizado no projeto, servindo como base para o Backend e para o consumo no FrontEnd.
-![Tela Consultas](./diagramaUML.png)
+![Tela Consultas](./diagrama.png)
 O diagrama foi modelado utilizando PlantUML.
 
 ---
