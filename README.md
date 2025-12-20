@@ -52,3 +52,9 @@ npm install
 npm start
 
 ---
+
+Autores
+
+- Ana Carolina Moraes Belo
+- Raphael Scheidegger Guedes
+- Matheus Teixeira
