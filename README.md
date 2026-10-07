@@ -1,129 +1,208 @@
-🏥 Sistema de Clínica Médica
---
-- Sistema web para gestão de clínica médica, focado na usabilidade, organização e agilidade no atendimento.
-Permite cadastrar pacientes, médicos e gerenciar consultas com filtros dinâmicos e interface moderna.
+# 🏥 Sistema de Clínica Médica
+
+Sistema web para gestão de clínica médica, desenvolvido com foco em **usabilidade, organização e agilidade no atendimento**.
+
+A aplicação permite cadastrar pacientes e médicos, gerenciar consultas e consultar os registros por meio de uma interface moderna e responsiva.
 
 ---
 
-🌐 Deploy da Aplicação
+## 🌐 Deploy da aplicação
 
-🔗 https://sistemadeclinicamedica-zia4--5173--365214aa.local-credentialless.webcontainer.io/
-🔗 https://stackblitz.com/~/github.com/RaphaelScheideggerG/Sistema-de-Clinica-Medica
+🔗 [Acessar a aplicação](https://sistemadeclinicamedica-zia4--5173--365214aa.local-credentialless.webcontainer.io/)
 
----
-
-🧭 Visão Geral do Projeto
-
-Domínio: Gestão de Clínica Médica
-Entidades principais: Cadastro de Paciente, Médico, Consultas.
-Objetivo: Sistema web para gestão de clínica médica, focado na usabilidade, organização e agilidade no atendimento.
-Permite cadastrar pacientes, médicos e gerenciar consultas com filtros dinâmicos e interface moderna.
-Persistência: Realizada via LocalStorage (Web Storage API).
+🔗 [Abrir o projeto no StackBlitz](https://stackblitz.com/~/github.com/RaphaelScheideggerG/Sistema-de-Clinica-Medica)
 
 ---
 
-🧰 Tecnologias Utilizadas
+## 🧭 Visão geral do projeto
 
-- React.js: Construção da interface reativa e componentizada
-- Ant Design (AntD): Layout profissional, tabelas e componentes visuais
-- JavaScript (ES6+): Lógica de manipulação de dados e estados
+**Domínio:** Gestão de Clínica Médica
 
----
+**Entidades principais:**
+- Paciente
+- Médico
+- Consulta
 
-🎯 Desafio Atendido (CRUDs + Relacionamentos)
-O projeto atende integralmente ao desafio proposto, contemplando:
+**Objetivo:** oferecer uma aplicação web para cadastro e gerenciamento de pacientes, médicos e consultas, com filtros, validações e interface organizada.
 
-✅ CRUD de Paciente
-✅ CRUD de Médico
-✅ Relacionamentos entre Paciente, Médico com a Consulta
-✅ Uso de Web Storage API para persistência
+**Persistência:** realizada por meio do `LocalStorage`, utilizando a Web Storage API.
 
 ---
 
-📋 Requisitos Funcionais (RF)
+## 🧰 Tecnologias utilizadas
 
-Paciente
-RF01 — Cadastrar Paciente
-RF02 — Listar Pacientes
-RF03 — Visualizar detalhes do Paciente
-RF04 — Editar Paciente
-RF05 — Remover Paciente
-RF06 —  Nome, CPF, Email ou Telefone, Data de Nascimento
-Médico
-RF07 — Cadastrar Médico
-RF08 — Listar Médico
-RF09 — Editar Médico
-RF10 — Remover Médico
-RF11 — Associar Nome, CRM, Especialidade, Email ou Telefone.
-Consulta
-RF12 — Cadastrar Consulta
-RF13 — Listar Consultas
-RF14 — Editar Consultas
-RF15 — Remover Consultas
-RF16 — Associar Paciente, Médico, Diagnóstico, Tratamento, Data, Turno
-RF17 - Limitar a quantidade de consultar no mesmo dia e turno do médico
-⚙️ Requisitos Não Funcionais (RNF)
-RNF01 — Aplicação desenvolvida em ReactJS
-RNF02 — Interface construída com Ant Design
-RNF03 — Uso do padrão DAO para acesso aos dados
-RNF04 — Interface responsiva
-RNF05 — Validação de formulários
-RNF06 — Código organizado por componentes e responsabilidades
+- **React.js** — construção da interface reativa e componentizada.
+- **Ant Design (AntD)** — componentes visuais, tabelas, formulários e estrutura da interface.
+- **JavaScript (ES6+)** — lógica da aplicação, manipulação de dados e gerenciamento de estados.
+- **LocalStorage / Web Storage API** — persistência dos dados no navegador.
+- **PlantUML** — modelagem e documentação do diagrama de classes.
 
 ---
 
-🖼️ Telas da Aplicação
-As telas abaixo ilustram as principais funcionalidades do sistema.
+## 🎯 Desafio atendido
 
-## Tela 1 Cadastro
-![Tela Cadastro](./telacadastropaciente.png)
-![Tela Cadastro](./telacadastromedico.png)
-![Tela Cadastro](./telacadastroconsulta.png)
+O projeto atende ao desafio proposto contemplando:
 
-## Tela 2 Lista pessoas
-![Tela Pessoas](./telalistapessoas.png)
-
-## Tela 3 Lista Consultas
-![Tela Consultas](./telaconsultas.png)
-
-## Tela 4 Visualiza Pessoas
-![Tela Consultas](./telavisualizapaciente.png)
-![Tela Consultas](./telavisualizamedico.png)
-
-## Tela 5 Visualiza Consulta
-![Tela Consultas](./telavisualizaconsulta.png)
+- ✅ CRUD de Pacientes
+- ✅ CRUD de Médicos
+- ✅ CRUD de Consultas
+- ✅ Relacionamentos entre Pacientes, Médicos e Consultas
+- ✅ Persistência utilizando a Web Storage API
+- ✅ Validação de formulários
+- ✅ Interface responsiva
+- ✅ Organização do acesso aos dados utilizando o padrão DAO
 
 ---
 
-🧠 Modelagem dos Dados
-📌 Diagrama de Classes
-O diagrama de classes abaixo representa o modelo conceitual utilizado no projeto, servindo como base para o Backend e para o consumo no FrontEnd.
-![Tela Consultas](./diagrama.png)
-O diagrama foi modelado utilizando PlantUML.
+## 📋 Requisitos funcionais
+
+### Paciente
+
+- **RF01** — Cadastrar paciente
+- **RF02** — Listar pacientes
+- **RF03** — Visualizar detalhes do paciente
+- **RF04** — Editar paciente
+- **RF05** — Remover paciente
+- **RF06** — Armazenar nome, CPF, e-mail, telefone e data de nascimento
+
+### Médico
+
+- **RF07** — Cadastrar médico
+- **RF08** — Listar médicos
+- **RF09** — Editar médico
+- **RF10** — Remover médico
+- **RF11** — Armazenar nome, CRM, especialidade, e-mail e telefone
+
+### Consulta
+
+- **RF12** — Cadastrar consulta
+- **RF13** — Listar consultas
+- **RF14** — Editar consultas
+- **RF15** — Remover consultas
+- **RF16** — Associar paciente, médico, diagnóstico, tratamento, data e turno
+- **RF17** — Limitar a quantidade de consultas do mesmo médico no mesmo dia e turno
 
 ---
 
-📂 Estrutura do Projeto FrontEnd
+## ⚙️ Requisitos não funcionais
+
+- **RNF01** — Aplicação desenvolvida em React.js
+- **RNF02** — Interface construída com Ant Design
+- **RNF03** — Uso do padrão DAO para acesso aos dados
+- **RNF04** — Interface responsiva
+- **RNF05** — Validação de formulários
+- **RNF06** — Código organizado por componentes e responsabilidades
 
 ---
 
-▶️ Execução Local
+## 🖼️ Telas da aplicação
 
+As imagens abaixo apresentam as principais funcionalidades e fluxos da aplicação.
+
+### Cadastro
+
+![Cadastro de paciente](./telacadastropaciente.png)
+
+![Cadastro de médico](./telacastromedico.png)
+
+![Cadastro de consulta](./telacadastroconsulta.png)
+
+### Lista de pessoas
+
+![Lista de pessoas](./telalistapessoas.png)
+
+### Lista de consultas
+
+![Lista de consultas](./telaconsultas.png)
+
+### Visualização de pacientes e médicos
+
+![Visualização do paciente](./telavisualizapaciente.png)
+
+![Visualização do médico](./telavisualizamedico.png)
+
+### Visualização de consulta
+
+![Visualização da consulta](./telavisualizaconsulta.png)
+
+---
+
+## 🧩 Modelagem e orientação a objetos
+
+O sistema utiliza conceitos de **orientação a objetos** para representar as entidades do domínio e suas responsabilidades.
+
+A modelagem é documentada por meio de um **diagrama de classes UML**, desenvolvido com PlantUML.
+
+### Relacionamentos
+
+O modelo representa explicitamente os relacionamentos entre:
+
+- **Paciente**
+- **Médico**
+- **Consulta**
+
+A entidade **Consulta** relaciona um paciente a um médico e concentra os dados específicos do atendimento, como diagnóstico, tratamento, data e turno.
+
+Esses relacionamentos permitem representar no modelo as regras do domínio relacionadas ao agendamento e ao vínculo entre as entidades.
+
+### Encapsulamento
+
+O diagrama UML também documenta o **encapsulamento das classes**, representando seus atributos e operações como parte das responsabilidades de cada entidade.
+
+A separação entre dados e operações ajuda a manter cada classe responsável pelo próprio estado e comportamento, enquanto os relacionamentos entre as classes representam as associações necessárias ao domínio.
+
+### Diagrama de classes
+
+![Diagrama de classes UML](./diagrama.png)
+
+O diagrama foi modelado utilizando **PlantUML** e serve como documentação da estrutura conceitual utilizada no projeto.
+
+---
+
+## ▶️ Execução local
+
+Instale as dependências:
+
+```bash
 npm install
+```
+
+Execute a aplicação em modo de desenvolvimento:
+
+```bash
 npm run dev
+```
 
 ---
 
-👥 Autoria
-Autores: Ana Carolina Moraes Belo, Matheus Teixeira de Oliveira, Raphael Scheidegger Guedes
-Projeto: Bolsa Futuro Digital (BFD)
-Área: Desenvolvimento FrontEnd
-Instituição: Instituto Federal de Brasília (IFB)
+## 👥 Autoria
+
+**Autores:**
+- Ana Carolina Moraes Belo
+- Matheus Teixeira de Oliveira
+- Raphael Scheidegger Guedes
+
+**Projeto:** Bolsa Futuro Digital (BFD)
+
+**Área:** Desenvolvimento FrontEnd
+
+**Instituição:** Instituto Federal de Brasília (IFB)
 
 ---
 
-📌 Considerações Finais
-Este projeto demonstra:
-- domínio dos conceitos de CRUD;
-- aplicação de modelagem UML;
-- aplicação publicada em ambiente de produção.
+## 📌 Considerações finais
+
+Este projeto demonstra a aplicação prática de:
+
+- conceitos de CRUD;
+- relacionamentos entre entidades;
+- orientação a objetos;
+- encapsulamento;
+- modelagem UML;
+- padrão DAO;
+- persistência com `LocalStorage`;
+- componentização em React;
+- validação de formulários;
+- desenvolvimento de interface responsiva.
+
+A aplicação também foi publicada em ambiente de execução web, permitindo demonstrar o sistema de forma prática.
