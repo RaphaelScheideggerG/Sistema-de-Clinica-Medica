@@ -8,7 +8,7 @@ A aplicação permite cadastrar pacientes e médicos, gerenciar consultas e cons
 
 ## 🌐 Deploy da aplicação
 
-🔗 [Acessar a aplicação](https://sistemadeclinicamedica-zia4--5173--365214aa.local-credentialless.webcontainer.io/)
+🔗 [Acessar a aplicação](sistema-de-clinica-medica.vercel.app)
 
 🔗 [Abrir o projeto no StackBlitz](https://stackblitz.com/~/github.com/RaphaelScheideggerG/Sistema-de-Clinica-Medica)
 
