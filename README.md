@@ -8,7 +8,7 @@ A aplicação permite cadastrar pacientes e médicos, gerenciar consultas e cons
 
 ## 🌐 Deploy da aplicação
 
-🔗 [Acessar a aplicação](sistema-de-clinica-medica.vercel.app)
+🔗 [Acessar a aplicação](https://sistema-de-clinica-medica.vercel.app/cadastro)
 
 🔗 [Abrir o projeto no StackBlitz](https://stackblitz.com/~/github.com/RaphaelScheideggerG/Sistema-de-Clinica-Medica)
 
